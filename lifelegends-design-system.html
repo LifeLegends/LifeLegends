@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>LifeLegends — Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   1. DESIGN TOKENS — single source of truth (Phase 1 + Bible)
+   ========================================================= */
+:root{
+  /* Color */
+  --bg-void:#05050a; --bg-elevated:#0d0d16; --bg-elevated-2:#12121e;
+  --bg-glass:rgba(255,255,255,.04);
+  --border-glass:rgba(255,255,255,.08); --border-glass-hi:rgba(255,255,255,.18);
+  --accent-gold:#d4af6a; --accent-gold-soft:rgba(212,175,106,.15); --accent-gold-strong:rgba(212,175,106,.35);
+  --accent-violet:#6e5bd6; --accent-violet-glow:rgba(110,91,214,.35); --accent-indigo-deep:#2a1f5e;
+  --text-primary:#f5f3ee; --text-secondary:#a6a4b5; --text-muted:#6b6980;
+  --state-success:#4ade80; --state-error:#f87171; --state-warning:#fbbf24;
+
+  /* Typography */
+  --font-display:'Fraunces',Georgia,serif; --font-body:'Inter',sans-serif; --font-label:'Inter',sans-serif;
+  --fs-hero:clamp(2.75rem,6vw,5.5rem); --fs-h1:clamp(2rem,3.5vw,3.25rem); --fs-h2:clamp(1.5rem,2.2vw,2.25rem);
+  --fs-h3:clamp(1.15rem,1.5vw,1.5rem); --fs-body:1rem; --fs-small:.875rem; --fs-label:.75rem;
+  --lh-body:1.6; --ls-label:.12em;
+
+  /* Spacing scale */
+  --space-1:4px; --space-2:8px; --space-3:12px; --space-4:16px; --space-6:24px;
+  --space-8:32px; --space-12:48px; --space-16:64px; --space-24:96px; --space-32:128px;
+
+  /* Radius */
+  --radius-sm:8px; --radius-card:20px; --radius-pill:999px; --radius-input:14px;
+
+  /* Elevation / glow */
+  --shadow-ambient:0 40px 100px -20px rgba(0,0,0,.6);
+  --shadow-raised:0 20px 50px -15px rgba(0,0,0,.55);
+  --glow-gold:0 0 40px rgba(212,175,106,.28);
+  --glow-violet:0 0 80px rgba(110,91,214,.3);
+  --glass-blur:blur(20px);
+
+  /* Motion */
+  --ease-out-expo:cubic-bezier(.16,1,.3,1); --ease-in-out:cubic-bezier(.65,0,.35,1);
+  --dur-fast:150ms; --dur-base:400ms; --dur-slow:800ms; --dur-cinematic:1400ms;
+
+  /* Container / grid */
+  --container-max:1360px; --gutter:48px; --gutter-tablet:32px; --gutter-mobile:20px;
+
+  --focus-ring:2px solid var(--accent-gold);
+  --z-overlay:200; --z-modal:300; --z-toast:400;
+}
+
+*{box-sizing:border-box;margin:0;padding:0;}
+html{color-scheme:dark;}
+body{background:var(--bg-void);color:var(--text-primary);font-family:var(--font-body);line-height:var(--lh-body);}
+img,svg{display:block;max-width:100%;}
+a{color:inherit;text-decoration:none;}
+button,input,textarea,select{font:inherit;color:inherit;}
+:focus-visible{outline:var(--focus-ring);outline-offset:2px;}
+h1,h2,h3{font-family:var(--font-display);line-height:1.1;letter-spacing:-.01em;}
+
+/* =========================================================
+   2. CONTAINER + GRID SYSTEM
+   ========================================================= */
+.container{max-width:var(--container-max); margin:0 auto; padding:0 var(--gutter);}
+@media (max-width:1100px){ .container{padding:0 var(--gutter-tablet);} }
+@media (max-width:640px){ .container{padding:0 var(--gutter-mobile);} }
+
+.grid{display:grid; gap:var(--space-6);}
+.grid-2{grid-template-columns:repeat(2,1fr);}
+.grid-3{grid-template-columns:repeat(3,1fr);}
+.grid-4{grid-template-columns:repeat(4,1fr);}
+@media (max-width:900px){ .grid-3,.grid-4{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:600px){ .grid-2,.grid-3,.grid-4{grid-template-columns:1fr;} }
+
+/* =========================================================
+   3. DOC SCAFFOLDING (style guide chrome — not part of the product)
+   ========================================================= */
+.doc-nav{
+  position:fixed; top:0; left:0; bottom:0; width:240px; padding:32px 20px; overflow-y:auto;
+  border-right:1px solid var(--border-glass); background:var(--bg-elevated); z-index:50;
+}
+.doc-nav .brand{font-family:var(--font-display); font-size:1.1rem; margin-bottom:28px;}
+.doc-nav a{display:block; font-size:.8rem; color:var(--text-secondary); padding:6px 0;}
+.doc-nav a:hover{color:var(--accent-gold);}
+main{margin-left:240px; padding:60px 0 140px;}
+@media (max-width:900px){ .doc-nav{display:none;} main{margin-left:0;} }
+
+.doc-section{padding:56px 0; border-bottom:1px solid var(--border-glass);}
+.doc-section h2{font-size:1.6rem; margin-bottom:8px;}
+.doc-section .desc{color:var(--text-secondary); font-size:.9rem; margin-bottom:32px; max-width:640px;}
+.swatch-row{display:flex; flex-wrap:wrap; gap:16px;}
+.swatch{width:120px;}
+.swatch .chip{height:70px; border-radius:12px; border:1px solid var(--border-glass); margin-bottom:8px;}
+.swatch .label{font-size:.7rem; color:var(--text-secondary);}
+.swatch .value{font-size:.65rem; color:var(--text-muted); font-family:monospace;}
+.type-row{display:flex; align-items:baseline; gap:24px; padding:14px 0; border-bottom:1px solid var(--border-glass);}
+.type-row .tag{width:90px; font-size:.7rem; color:var(--text-muted); font-family:monospace;}
+.eyebrow{font-family:var(--font-label); font-size:var(--fs-label); letter-spacing:var(--ls-label); text-transform:uppercase; color:var(--accent-gold);}
+
+/* =========================================================
+   4. BUTTONS
+   ========================================================= */
+.btn{display:inline-flex; align-items:center; gap:8px; padding:14px 30px; border-radius:var(--radius-pill);
+  font-size:.85rem; letter-spacing:.05em; text-transform:uppercase; cursor:pointer; transition:all var(--dur-base) var(--ease-out-expo); border:1px solid transparent;}
+.btn-gold{position:relative; border:1px solid var(--accent-gold); overflow:hidden;}
+.btn-gold::before{content:'';position:absolute;inset:0;background:var(--accent-gold);transform:scaleX(0);transform-origin:left;transition:transform .45s var(--ease-out-expo);z-index:0;}
+.btn-gold:hover::before{transform:scaleX(1);}
+.btn-gold span{position:relative;z-index:1;transition:color .45s var(--ease-out-expo);}
+.btn-gold:hover span{color:var(--bg-void);}
+.btn-outline{border:1px solid var(--border-glass);}
+.btn-outline:hover{border-color:var(--border-glass-hi); background:var(--bg-glass);}
+.btn-ghost{color:var(--text-secondary);}
+.btn-ghost:hover{color:var(--text-primary);}
+.btn-solid{background:var(--accent-gold); color:var(--bg-void); border-color:var(--accent-gold);}
+.btn-solid:hover{box-shadow:var(--glow-gold);}
+.btn-sm{padding:9px 20px; font-size:.72rem;}
+.btn:disabled{opacity:.35; cursor:not-allowed;}
+.btn-row{display:flex; gap:16px; flex-wrap:wrap; align-items:center;}
+
+/* =========================================================
+   5. CARDS
+   ========================================================= */
+.card-base{border-radius:var(--radius-card); border:1px solid var(--border-glass); background:var(--bg-elevated);
+  transition:border-color var(--dur-base) var(--ease-out-expo), box-shadow var(--dur-base) var(--ease-out-expo), transform var(--dur-base) var(--ease-out-expo);}
+.card-base:hover{border-color:var(--accent-gold); box-shadow:var(--glow-gold); transform:translateY(-6px);}
+
+.bio-card{position:relative; aspect-ratio:3/4; overflow:hidden;}
+.bio-card .media{position:absolute;inset:0;}
+.bio-card .media img{width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.2) brightness(.8);}
+.bio-card .duotone{position:absolute;inset:0;background:linear-gradient(160deg, rgba(110,91,214,.5), rgba(212,175,106,.2));mix-blend-mode:color;}
+.bio-card .scrim{position:absolute;inset:0;background:linear-gradient(to top, rgba(5,5,10,.95) 15%, transparent 60%);}
+.bio-card .chip-tag{position:absolute; top:16px; left:16px; z-index:2;}
+.bio-card .info{position:absolute; left:18px; bottom:18px; right:50px; z-index:2;}
+.bio-card .info .name{font-family:var(--font-display); font-size:1.1rem;}
+.bio-card .info .role{font-size:.72rem; color:var(--text-muted); margin-top:2px;}
+.bio-card .arrow{position:absolute; right:16px; bottom:16px; width:34px; height:34px; border-radius:50%;
+  border:1px solid var(--border-glass-hi); display:flex; align-items:center; justify-content:center; z-index:2; transition:all var(--dur-base);}
+.bio-card:hover .arrow{background:var(--accent-gold); border-color:var(--accent-gold);}
+.bio-card:hover .arrow svg{stroke:var(--bg-void);}
+
+.category-card{position:relative; aspect-ratio:3/4; overflow:hidden;}
+.category-card .art{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;transition:transform .6s var(--ease-out-expo);}
+.category-card:hover .art{transform:scale(1.08);}
+.category-card .overlay{position:absolute;inset:0;background:linear-gradient(to top, rgba(5,5,10,.95) 15%, transparent 60%);}
+.category-card .label{position:absolute; left:20px; bottom:20px; z-index:2;}
+.category-card .label .name{font-family:var(--font-display); font-size:1.2rem;}
+.category-card .label .count{font-size:.72rem;color:var(--text-muted);margin-top:4px;}
+
+.glass-card{background:var(--bg-glass); border:1px solid var(--border-glass); backdrop-filter:var(--glass-blur); border-radius:var(--radius-card); padding:32px;}
+.glass-card:hover{border-color:var(--border-glass-hi);}
+
+/* =========================================================
+   6. BADGES / CHIPS / PILLS / TAGS
+   ========================================================= */
+.chip-tag{font-size:.65rem; letter-spacing:.08em; text-transform:uppercase; padding:5px 12px; border-radius:var(--radius-pill);
+  background:var(--accent-gold-soft); color:var(--accent-gold); border:1px solid var(--accent-gold-strong); display:inline-block;}
+.badge{font-size:.68rem; padding:4px 10px; border-radius:6px; display:inline-block;}
+.badge-success{background:rgba(74,222,128,.12); color:var(--state-success); border:1px solid rgba(74,222,128,.3);}
+.badge-error{background:rgba(248,113,113,.12); color:var(--state-error); border:1px solid rgba(248,113,113,.3);}
+.badge-warning{background:rgba(251,191,36,.12); color:var(--state-warning); border:1px solid rgba(251,191,36,.3);}
+.pill{padding:8px 18px; border-radius:var(--radius-pill); border:1px solid var(--border-glass); font-size:.78rem; color:var(--text-secondary); display:inline-block; cursor:pointer; transition:all var(--dur-fast);}
+.pill:hover, .pill.active{border-color:var(--accent-gold); color:var(--text-primary); background:var(--accent-gold-soft);}
+.tag{font-size:.75rem; color:var(--text-muted); padding:4px 10px; border:1px solid var(--border-glass); border-radius:6px; display:inline-block;}
+
+/* =========================================================
+   7. FORM / INPUT COMPONENTS
+   ========================================================= */
+.field{margin-bottom:20px;}
+.field label{display:block; font-size:.75rem; letter-spacing:.06em; text-transform:uppercase; color:var(--text-muted); margin-bottom:8px;}
+.input, .textarea, .select{
+  width:100%; padding:14px 18px; border-radius:var(--radius-input); border:1px solid var(--border-glass);
+  background:rgba(255,255,255,.03); font-size:.9rem; transition:border-color var(--dur-fast);
+}
+.input:focus, .textarea:focus, .select:focus{border-color:var(--accent-gold); outline:none;}
+.textarea{min-height:110px; resize:vertical;}
+.search-input-wrap{position:relative; max-width:420px;}
+.search-input-wrap .input{padding-left:44px; border-radius:var(--radius-pill);}
+.search-input-wrap svg{position:absolute; left:16px; top:50%; transform:translateY(-50%); opacity:.6;}
+.search-input-wrap .kbd{position:absolute; right:14px; top:50%; transform:translateY(-50%); font-size:.65rem; color:var(--text-muted); border:1px solid var(--border-glass); padding:2px 6px; border-radius:4px;}
+
+/* =========================================================
+   8. NAVIGATION
+   ========================================================= */
+.nav-demo{display:flex; align-items:center; justify-content:space-between; padding:20px 28px; border-radius:16px; background:rgba(255,255,255,.03); border:1px solid var(--border-glass);}
+.nav-demo .logo{font-family:var(--font-display); font-size:1rem; display:flex; align-items:center; gap:8px;}
+.nav-demo .glyph{width:20px;height:20px;border-radius:50%;background:conic-gradient(from 210deg,var(--accent-gold),var(--accent-violet),var(--accent-gold));}
+.nav-demo nav{display:flex; gap:28px;}
+.nav-demo nav a{font-size:.75rem; letter-spacing:.05em; text-transform:uppercase; color:var(--text-secondary); position:relative; padding-bottom:4px;}
+.nav-demo nav a.active{color:var(--text-primary);}
+.nav-demo nav a.active::after{content:'';position:absolute;left:0;right:0;bottom:0;height:1px;background:var(--accent-gold);}
+
+.tabs{display:flex; gap:6px; border-bottom:1px solid var(--border-glass); margin-bottom:24px;}
+.tab-btn{padding:10px 18px; font-size:.8rem; color:var(--text-secondary); border-bottom:2px solid transparent; margin-bottom:-1px;}
+.tab-btn.active{color:var(--accent-gold); border-color:var(--accent-gold);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+.pagination{display:flex; gap:8px; align-items:center;}
+.page-btn{width:36px; height:36px; border-radius:50%; border:1px solid var(--border-glass); display:flex; align-items:center; justify-content:center; font-size:.8rem; color:var(--text-secondary);}
+.page-btn.active{background:var(--accent-gold); color:var(--bg-void); border-color:var(--accent-gold);}
+.page-btn:hover:not(.active){border-color:var(--border-glass-hi); color:var(--text-primary);}
+
+/* =========================================================
+   9. FOOTER
+   ========================================================= */
+.footer-demo{border-top:1px solid var(--border-glass); padding-top:40px;}
+.footer-demo .cols{display:grid; grid-template-columns:1.5fr repeat(3,1fr); gap:28px;}
+.footer-demo h4{font-size:.72rem; letter-spacing:.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:14px;}
+.footer-demo ul li{font-size:.85rem; color:var(--text-secondary); margin-bottom:8px;}
+@media (max-width:700px){ .footer-demo .cols{grid-template-columns:1fr 1fr;} }
+
+/* =========================================================
+   10. MODAL / TOOLTIP / DROPDOWN
+   ========================================================= */
+.modal-backdrop{position:fixed; inset:0; background:rgba(5,5,10,.75); backdrop-filter:blur(6px); z-index:var(--z-modal); display:none; align-items:center; justify-content:center;}
+.modal-backdrop.open{display:flex;}
+.modal-box{width:min(440px,90vw); background:var(--bg-elevated); border:1px solid var(--border-glass-hi); border-radius:var(--radius-card); padding:32px; box-shadow:var(--shadow-ambient);}
+.modal-box h3{margin-bottom:12px;}
+.modal-box p{color:var(--text-secondary); font-size:.9rem; margin-bottom:24px;}
+
+.tooltip-wrap{position:relative; display:inline-block;}
+.tooltip-bubble{position:absolute; bottom:130%; left:50%; transform:translateX(-50%) translateY(4px); background:var(--bg-elevated-2);
+  border:1px solid var(--border-glass-hi); padding:8px 14px; border-radius:8px; font-size:.75rem; white-space:nowrap;
+  opacity:0; pointer-events:none; transition:all var(--dur-fast) var(--ease-out-expo);}
+.tooltip-wrap:hover .tooltip-bubble{opacity:1; transform:translateX(-50%) translateY(0);}
+
+.dropdown{position:relative; display:inline-block;}
+.dropdown-menu{position:absolute; top:110%; left:0; min-width:180px; background:var(--bg-elevated-2); border:1px solid var(--border-glass-hi);
+  border-radius:12px; padding:8px; display:none; box-shadow:var(--shadow-raised); z-index:20;}
+.dropdown.open .dropdown-menu{display:block;}
+.dropdown-item{padding:10px 12px; font-size:.82rem; border-radius:8px; color:var(--text-secondary);}
+.dropdown-item:hover{background:var(--bg-glass); color:var(--text-primary);}
+
+/* =========================================================
+   11. SEARCH OVERLAY
+   ========================================================= */
+.search-overlay{position:fixed; inset:0; background:rgba(5,5,10,.96); z-index:var(--z-overlay); display:none; align-items:flex-start; justify-content:center; padding-top:14vh;}
+.search-overlay.open{display:flex;}
+.search-overlay-inner{width:min(640px,90vw); text-align:center;}
+.search-overlay-inner h2{font-size:clamp(1.5rem,3vw,2.25rem); margin-bottom:28px;}
+.search-overlay .chips-row{display:flex; gap:10px; justify-content:center; margin-top:24px; flex-wrap:wrap;}
+.search-overlay .close-btn{position:absolute; top:32px; right:40px; font-size:.8rem; color:var(--text-muted);}
+
+/* =========================================================
+   12. LOADING SCREEN + SKELETON LOADERS
+   ========================================================= */
+.loading-demo{position:relative; height:220px; border-radius:var(--radius-card); background:var(--bg-elevated); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; overflow:hidden; border:1px solid var(--border-glass);}
+.loading-demo .mark{font-family:var(--font-display); letter-spacing:.35em; font-size:1rem;}
+.loading-demo .bar{width:180px; height:1px; background:rgba(255,255,255,.12); position:relative;}
+.loading-demo .bar-fill{position:absolute; left:0; top:0; height:100%; width:62%; background:var(--accent-gold); box-shadow:0 0 10px var(--accent-gold);}
+
+.skeleton{background:linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-elevated-2) 50%, var(--bg-elevated) 75%); background-size:200% 100%; animation:shimmer 1.6s infinite; border-radius:8px;}
+@keyframes shimmer{0%{background-position:200% 0;} 100%{background-position:-200% 0;}}
+.skeleton-card{aspect-ratio:3/4; border-radius:var(--radius-card);}
+.skeleton-line{height:14px; margin-bottom:10px;}
+
+/* =========================================================
+   13. SCROLL PROGRESS + SECTION TITLE + CTA BANNER
+   ========================================================= */
+#scrollProgress{position:fixed; top:0; left:0; height:2px; background:var(--accent-gold); box-shadow:0 0 8px var(--accent-gold); z-index:500; width:0%;}
+.section-title{margin-bottom:12px;}
+.cta-banner{border-radius:var(--radius-card); border:1px solid var(--border-glass); background:var(--bg-glass); backdrop-filter:var(--glass-blur); padding:56px 40px; display:flex; align-items:center; justify-content:space-between; gap:32px; flex-wrap:wrap;}
+.cta-banner h3{font-size:1.5rem; max-width:400px;}
+
+/* =========================================================
+   14. TIMELINE NODE / CONNECTOR
+   ========================================================= */
+.timeline-demo{position:relative; height:2px; background:var(--border-glass); margin:60px 20px;}
+.timeline-node{position:absolute; top:50%; transform:translate(-50%,-50%); width:12px; height:12px; border-radius:50%; background:var(--bg-void); border:2px solid var(--text-muted); cursor:pointer;}
+.timeline-node.active{border-color:var(--accent-gold); background:var(--accent-gold); box-shadow:0 0 14px var(--accent-gold);}
+.timeline-node .yr{position:absolute; left:50%; transform:translateX(-50%); top:-30px; font-size:.72rem; color:var(--text-muted); white-space:nowrap;}
+.timeline-connector-fill{position:absolute; left:0; top:0; height:100%; width:45%; background:var(--accent-gold);}
+
+/* =========================================================
+   15. MOTION PRESET DEMO TILES
+   ========================================================= */
+.motion-tile{padding:28px; border-radius:16px; border:1px solid var(--border-glass); background:var(--bg-elevated); text-align:center; cursor:pointer;}
+.motion-tile .box{width:40px; height:40px; border-radius:8px; background:var(--accent-gold); margin:0 auto 16px;}
+.motion-tile .name{font-size:.8rem; color:var(--text-secondary);}
+</style>
+</head>
+<body>
+
+<div id="scrollProgress"></div>
+
+<nav class="doc-nav">
+  <div class="brand">LifeLegends<br><span style="font-size:.65rem;color:var(--text-muted);letter-spacing:.1em;">DESIGN SYSTEM</span></div>
+  <a href="#colors">Color</a>
+  <a href="#type">Typography</a>
+  <a href="#spacing">Spacing & Grid</a>
+  <a href="#surfaces">Borders / Shadows / Glow</a>
+  <a href="#buttons">Buttons</a>
+  <a href="#cards">Cards</a>
+  <a href="#badges">Badges / Chips / Pills</a>
+  <a href="#forms">Forms & Inputs</a>
+  <a href="#nav">Navigation / Tabs</a>
+  <a href="#footer">Footer</a>
+  <a href="#overlays">Modal / Tooltip / Dropdown</a>
+  <a href="#search">Search Overlay</a>
+  <a href="#loading">Loading / Skeletons</a>
+  <a href="#timeline">Timeline</a>
+  <a href="#cta">CTA / Newsletter</a>
+  <a href="#motion">Motion Presets</a>
+</nav>
+
+<main>
+<div class="container">
+
+  <div style="margin-bottom:40px;">
+    <span class="eyebrow">Phase 2</span>
+    <h1 style="font-size:clamp(2rem,4vw,3rem);margin-top:10px;">Design System</h1>
+    <p style="color:var(--text-secondary);margin-top:12px;max-width:560px;">The complete visual foundation — every token and reusable component the homepage, biography page, categories, and search will draw from. No page content lives here.</p>
+  </div>
+
+  <!-- COLOR -->
+  <section class="doc-section" id="colors">
+    <h2>Global Color System</h2>
+    <p class="desc">One neutral void, two accents with distinct jobs (gold = achievement/action, violet = atmosphere), warm off-white text.</p>
+    <div class="swatch-row">
+      <div class="swatch"><div class="chip" style="background:#05050a;"></div><div class="label">bg-void</div><div class="value">#05050A</div></div>
+      <div class="swatch"><div class="chip" style="background:#0d0d16;"></div><div class="label">bg-elevated</div><div class="value">#0D0D16</div></div>
+      <div class="swatch"><div class="chip" style="background:#d4af6a;"></div><div class="label">accent-gold</div><div class="value">#D4AF6A</div></div>
+      <div class="swatch"><div class="chip" style="background:#6e5bd6;"></div><div class="label">accent-violet</div><div class="value">#6E5BD6</div></div>
+      <div class="swatch"><div class="chip" style="background:#2a1f5e;"></div><div class="label">indigo-deep</div><div class="value">#2A1F5E</div></div>
+      <div class="swatch"><div class="chip" style="background:#f5f3ee;"></div><div class="label">text-primary</div><div class="value">#F5F3EE</div></div>
+      <div class="swatch"><div class="chip" style="background:#a6a4b5;"></div><div class="label">text-secondary</div><div class="value">#A6A4B5</div></div>
+      <div class="swatch"><div class="chip" style="background:#6b6980;"></div><div class="label">text-muted</div><div class="value">#6B6980</div></div>
+      <div class="swatch"><div class="chip" style="background:#4ade80;"></div><div class="label">success</div><div class="value">#4ADE80</div></div>
+      <div class="swatch"><div class="chip" style="background:#f87171;"></div><div class="label">error</div><div class="value">#F87171</div></div>
+    </div>
+  </section>
+
+  <!-- TYPE -->
+  <section class="doc-section" id="type">
+    <h2>Typography System</h2>
+    <p class="desc">Fraunces (display) for anything spoken with authority; Inter (body/label) for anything read for information.</p>
+    <div class="type-row"><span class="tag">hero</span><span style="font-family:var(--font-display);font-size:var(--fs-hero);">Legends</span></div>
+    <div class="type-row"><span class="tag">h1</span><span style="font-family:var(--font-display);font-size:var(--fs-h1);">Life Journey</span></div>
+    <div class="type-row"><span class="tag">h2</span><span style="font-family:var(--font-display);font-size:var(--fs-h2);">Featured Legends</span></div>
+    <div class="type-row"><span class="tag">h3</span><span style="font-family:var(--font-display);font-size:var(--fs-h3);">Nikola Tesla</span></div>
+    <div class="type-row"><span class="tag">body</span><span style="font-size:var(--fs-body);">Discover the extraordinary lives of iconic people who changed the world.</span></div>
+    <div class="type-row"><span class="tag">small</span><span style="font-size:var(--fs-small);color:var(--text-secondary);">700+ Patents · 26 Countries Influenced</span></div>
+    <div class="type-row"><span class="tag">label</span><span class="eyebrow">Explore Legends</span></div>
+  </section>
+
+  <!-- SPACING / GRID -->
+  <section class="doc-section" id="spacing">
+    <h2>Responsive Spacing, Grid & Container</h2>
+    <p class="desc">One spacing scale (4→128px), one container max-width (1360px), gutters that step down at tablet/mobile breakpoints.</p>
+    <div class="swatch-row">
+      <div class="swatch"><div class="chip" style="background:var(--bg-elevated);display:flex;align-items:center;justify-content:center;"><div style="width:4px;height:4px;background:var(--accent-gold);"></div></div><div class="label">space-1 · 4px</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--bg-elevated);display:flex;align-items:center;justify-content:center;"><div style="width:16px;height:16px;background:var(--accent-gold);"></div></div><div class="label">space-4 · 16px</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--bg-elevated);display:flex;align-items:center;justify-content:center;"><div style="width:32px;height:32px;background:var(--accent-gold);"></div></div><div class="label">space-8 · 32px</div></div>
+      <div class="swatch"><div class="chip" style="background:var(--bg-elevated);display:flex;align-items:center;justify-content:center;"><div style="width:64px;height:48px;background:var(--accent-gold);"></div></div><div class="label">space-16 · 64px</div></div>
+    </div>
+    <div class="grid grid-4" style="margin-top:28px;">
+      <div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div>
+      <div class="skeleton skeleton-card"></div><div class="skeleton skeleton-card"></div>
+    </div>
+    <p style="font-size:.75rem;color:var(--text-muted);margin-top:12px;">4-col grid → collapses to 2-col at 900px → 1-col at 600px (resize window to verify).</p>
+  </section>
+
+  <!-- BORDERS / SHADOWS / GLOW / GLASS -->
+  <section class="doc-section" id="surfaces">
+    <h2>Border, Shadow, Glow & Glass System</h2>
+    <p class="desc">Hairline borders that brighten (never thicken) on hover/active. Soft, large-radius ambient shadows. Colored glow reserved for focus/importance. Glass reserved for nav, overlays, and modals only — never on content cards.</p>
+    <div class="grid grid-4">
+      <div style="padding:24px;border-radius:16px;border:1px solid var(--border-glass);background:var(--bg-elevated);"><p style="font-size:.75rem;color:var(--text-muted);">border-glass (default)</p></div>
+      <div style="padding:24px;border-radius:16px;border:1px solid var(--border-glass-hi);background:var(--bg-elevated);"><p style="font-size:.75rem;color:var(--text-muted);">border-glass-hi (hover)</p></div>
+      <div style="padding:24px;border-radius:16px;border:1px solid var(--accent-gold);background:var(--bg-elevated);box-shadow:var(--glow-gold);"><p style="font-size:.75rem;color:var(--accent-gold);">gold + glow-gold</p></div>
+      <div class="glass-card" style="padding:24px;"><p style="font-size:.75rem;color:var(--text-secondary);">glass-surface (nav/overlay/modal only)</p></div>
+    </div>
+  </section>
+
+  <!-- BUTTONS -->
+  <section class="doc-section" id="buttons">
+    <h2>Button Variants</h2>
+    <p class="desc">Exactly one gold CTA per view. Outline/ghost for secondary actions. Fill-from-edge hover on gold, never an instant color snap.</p>
+    <div class="btn-row">
+      <button class="btn btn-gold"><span>Explore Legends</span></button>
+      <button class="btn btn-solid">Subscribe</button>
+      <button class="btn btn-outline">View All Categories</button>
+      <button class="btn btn-ghost">Cancel</button>
+      <button class="btn btn-gold btn-sm"><span>Small</span></button>
+      <button class="btn btn-outline" disabled>Disabled</button>
+    </div>
+  </section>
+
+  <!-- CARDS -->
+  <section class="doc-section" id="cards">
+    <h2>Card Variants</h2>
+    <p class="desc">Biography Card and Category Card share one anatomy: image fills frame, bottom scrim for legibility, chip top-left, label bottom-left, arrow affordance bottom-right on navigable cards.</p>
+    <div class="grid grid-4">
+      <div class="card-base bio-card">
+        <div class="media"><img src="https://commons.wikimedia.org/wiki/Special:FilePath/Albert%20Einstein%20Head.jpg?width=500" alt="Albert Einstein"/></div>
+        <div class="duotone"></div><div class="scrim"></div>
+        <span class="chip-tag" style="position:absolute;top:16px;left:16px;">Physics</span>
+        <div class="info"><div class="name">Albert Einstein</div><div class="role">Theoretical Physicist</div></div>
+        <div class="arrow"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M7 17L17 7M17 7H8M17 7V16"/></svg></div>
+      </div>
+      <div class="card-base category-card">
+        <div class="art"><svg viewBox="0 0 160 160" width="70%"><circle cx="80" cy="80" r="50" fill="none" stroke="#d4af6a" stroke-width="1.5" opacity=".6"/></svg></div>
+        <div class="overlay"></div>
+        <div class="label"><div class="name">Innovators</div><div class="count">142 Biographies</div></div>
+      </div>
+      <div class="glass-card" style="aspect-ratio:3/4;display:flex;flex-direction:column;justify-content:center;">
+        <span class="eyebrow" style="margin-bottom:10px;">Glass card</span>
+        <p style="font-size:.85rem;color:var(--text-secondary);">Reserved for newsletter panels and floating UI, never content imagery.</p>
+      </div>
+      <div class="card-base" style="aspect-ratio:3/4;padding:24px;display:flex;flex-direction:column;justify-content:space-between;">
+        <span class="eyebrow">Stat block</span>
+        <div><div style="font-family:var(--font-display);font-size:2rem;">700+</div><div style="font-size:.75rem;color:var(--text-muted);">Patents</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BADGES / CHIPS / PILLS -->
+  <section class="doc-section" id="badges">
+    <h2>Badges, Chips, Pills & Tags</h2>
+    <p class="desc">Chips label card categories. Pills are tappable filters (search). Badges communicate status. Tags are quiet metadata.</p>
+    <div class="btn-row">
+      <span class="chip-tag">Physics</span>
+      <span class="badge badge-success">Published</span>
+      <span class="badge badge-warning">Draft</span>
+      <span class="badge badge-error">Error</span>
+      <span class="pill active">All</span>
+      <span class="pill">Popularity</span>
+      <span class="pill">Latest</span>
+      <span class="tag">1856–1943</span>
+    </div>
+  </section>
+
+  <!-- FORMS -->
+  <section class="doc-section" id="forms">
+    <h2>Form & Input Components</h2>
+    <div class="grid grid-2">
+      <div>
+        <div class="field"><label>Name</label><input class="input" placeholder="Ada Lovelace"/></div>
+        <div class="field"><label>Message</label><textarea class="textarea" placeholder="Tell us about a legend to feature..."></textarea></div>
+        <div class="field"><label>Category</label>
+          <select class="select"><option>Pioneers</option><option>Leaders</option><option>Innovators</option><option>Artists</option></select>
+        </div>
+      </div>
+      <div>
+        <label style="display:block;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;">Search input</label>
+        <div class="search-input-wrap">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input class="input" placeholder="Search for a legend..."/>
+          <span class="kbd">⌘K</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAV / TABS / PAGINATION -->
+  <section class="doc-section" id="nav">
+    <h2>Navigation, Tabs & Pagination</h2>
+    <div class="nav-demo">
+      <div class="logo"><span class="glyph"></span>LIFELEGENDS</div>
+      <nav><a href="#" class="active">Home</a><a href="#">Biographies</a><a href="#">Categories</a><a href="#">Timeline</a></nav>
+      <button class="btn btn-outline btn-sm">Search</button>
+    </div>
+
+    <div style="margin-top:36px;">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="t1">Overview</button>
+        <button class="tab-btn" data-tab="t2">Gallery</button>
+        <button class="tab-btn" data-tab="t3">Sources</button>
+      </div>
+      <div class="tab-panel active" id="t1"><p style="color:var(--text-secondary);font-size:.9rem;">A visionary inventor whose work in alternating current reshaped the modern world.</p></div>
+      <div class="tab-panel" id="t2"><p style="color:var(--text-secondary);font-size:.9rem;">Gallery grid renders here — placeholder for Phase 3.</p></div>
+      <div class="tab-panel" id="t3"><p style="color:var(--text-secondary);font-size:.9rem;">Cited sources render here — placeholder for Phase 3.</p></div>
+    </div>
+
+    <div style="margin-top:36px;">
+      <div class="pagination">
+        <button class="page-btn">‹</button>
+        <button class="page-btn active">1</button>
+        <button class="page-btn">2</button>
+        <button class="page-btn">3</button>
+        <button class="page-btn">›</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <section class="doc-section" id="footer">
+    <h2>Footer Component</h2>
+    <div class="footer-demo">
+      <div class="cols">
+        <div><div class="logo" style="font-family:var(--font-display);">LIFELEGENDS</div><p style="font-size:.85rem;color:var(--text-secondary);margin-top:12px;max-width:260px;">Honoring the lives that inspire generations.</p></div>
+        <div><h4>Explore</h4><ul><li>Biographies</li><li>Categories</li><li>Timeline</li></ul></div>
+        <div><h4>Information</h4><ul><li>About</li><li>Contact</li><li>Privacy</li></ul></div>
+        <div><h4>Support</h4><ul><li>Help Center</li><li>Feedback</li></ul></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL / TOOLTIP / DROPDOWN -->
+  <section class="doc-section" id="overlays">
+    <h2>Modal, Tooltip & Dropdown</h2>
+    <div class="btn-row">
+      <button class="btn btn-outline" onclick="document.getElementById('demoModal').classList.add('open')">Open Modal</button>
+      <div class="tooltip-wrap">
+        <button class="btn btn-outline">Hover me</button>
+        <div class="tooltip-bubble">Bookmark this legend</div>
+      </div>
+      <div class="dropdown" id="demoDropdown">
+        <button class="btn btn-outline" onclick="document.getElementById('demoDropdown').classList.toggle('open')">Filter ▾</button>
+        <div class="dropdown-menu">
+          <div class="dropdown-item">Most Recent</div>
+          <div class="dropdown-item">Most Popular</div>
+          <div class="dropdown-item">A–Z</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SEARCH OVERLAY TRIGGER -->
+  <section class="doc-section" id="search">
+    <h2>Search Overlay</h2>
+    <p class="desc">Full-screen radial-nebula overlay, oversized centered question, popular-search chips. Traps focus, closes on Escape.</p>
+    <button class="btn btn-gold" onclick="document.getElementById('searchOverlay').classList.add('open')"><span>Open Search Overlay</span></button>
+  </section>
+
+  <!-- LOADING / SKELETON -->
+  <section class="doc-section" id="loading">
+    <h2>Loading Screen & Skeleton Loaders</h2>
+    <div class="grid grid-2">
+      <div class="loading-demo">
+        <div class="mark">LIFELEGENDS</div>
+        <div class="bar"><div class="bar-fill"></div></div>
+      </div>
+      <div>
+        <div class="skeleton skeleton-line" style="width:60%;"></div>
+        <div class="skeleton skeleton-line" style="width:90%;"></div>
+        <div class="skeleton skeleton-line" style="width:75%;"></div>
+        <div class="skeleton" style="height:100px;margin-top:16px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE -->
+  <section class="doc-section" id="timeline">
+    <h2>Timeline Node & Connector</h2>
+    <div class="timeline-demo" id="timelineDemo">
+      <div class="timeline-connector-fill"></div>
+    </div>
+  </section>
+
+  <!-- CTA / NEWSLETTER -->
+  <section class="doc-section" id="cta">
+    <h2>CTA Banner & Newsletter Form</h2>
+    <div class="cta-banner">
+      <h3>Get the stories that inspire generations, delivered monthly.</h3>
+      <form style="display:flex;gap:12px;flex:1;max-width:420px;" onsubmit="event.preventDefault();">
+        <input class="input" placeholder="Enter your email" style="border-radius:999px;"/>
+        <button class="btn btn-gold"><span>Subscribe</span></button>
+      </form>
+    </div>
+  </section>
+
+  <!-- MOTION -->
+  <section class="doc-section" id="motion" style="border-bottom:none;">
+    <h2>Motion Presets</h2>
+    <p class="desc">Every preset below uses the centralized easing/duration tokens from Phase 1's motion architecture (gsap.ts, useScrollReveal, pageTransitionVariants). Click a tile to preview.</p>
+    <div class="grid grid-4">
+      <div class="motion-tile" data-preset="fade"><div class="box"></div><div class="name">Fade</div></div>
+      <div class="motion-tile" data-preset="slide"><div class="box"></div><div class="name">Slide</div></div>
+      <div class="motion-tile" data-preset="scale"><div class="box"></div><div class="name">Scale</div></div>
+      <div class="motion-tile" data-preset="reveal"><div class="box" style="clip-path:inset(0 0 0 0);"></div><div class="name">Clip Reveal</div></div>
+      <div class="motion-tile" data-preset="stagger"><div class="box"></div><div class="name">Stagger</div></div>
+      <div class="motion-tile" data-preset="hero"><div class="box"></div><div class="name">Hero Entrance</div></div>
+      <div class="motion-tile" data-preset="cardhover"><div class="box"></div><div class="name">Card Hover</div></div>
+      <div class="motion-tile" data-preset="imgreveal"><div class="box"></div><div class="name">Image Reveal</div></div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="demoModal" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal-box">
+    <h3>Bookmark this Legend</h3>
+    <p>Save Nikola Tesla to your reading list. This is placeholder modal content for the design system.</p>
+    <div class="btn-row"><button class="btn btn-gold" onclick="document.getElementById('demoModal').classList.remove('open')"><span>Confirm</span></button><button class="btn btn-ghost" onclick="document.getElementById('demoModal').classList.remove('open')">Cancel</button></div>
+  </div>
+</div>
+
+<!-- Search overlay -->
+<div class="search-overlay" id="searchOverlay">
+  <button class="close-btn" onclick="document.getElementById('searchOverlay').classList.remove('open')">Close ✕</button>
+  <div class="search-overlay-inner">
+    <h2 style="font-family:var(--font-display);">Who are you looking for?</h2>
+    <div class="search-input-wrap" style="margin:0 auto;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input class="input" placeholder="Search for a legend..." autofocus/>
+      <span class="kbd">ESC</span>
+    </div>
+    <div class="chips-row">
+      <span class="pill">Albert Einstein</span><span class="pill">Marie Curie</span><span class="pill">Nelson Mandela</span><span class="pill">Leonardo da Vinci</span>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>
+/* Scroll progress */
+window.addEventListener('scroll', ()=>{
+  const h = document.documentElement;
+  const pct = (h.scrollTop)/(h.scrollHeight-h.clientHeight)*100;
+  document.getElementById('scrollProgress').style.width = pct+'%';
+});
+
+/* Tabs */
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* Escape closes modal/search/dropdown */
+window.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){
+    document.getElementById('demoModal').classList.remove('open');
+    document.getElementById('searchOverlay').classList.remove('open');
+    document.getElementById('demoDropdown').classList.remove('open');
+  }
+});
+
+/* Timeline demo nodes */
+const tlEvents = [1856,1875,1884,1891,1893,1943];
+const tlDemo = document.getElementById('timelineDemo');
+tlEvents.forEach((yr,i)=>{
+  const pct = i/(tlEvents.length-1)*100;
+  const node = document.createElement('div');
+  node.className = 'timeline-node' + (i===3?' active':'');
+  node.style.left = pct+'%';
+  node.innerHTML = `<span class="yr">${yr}</span>`;
+  tlDemo.appendChild(node);
+});
+
+/* Motion preset preview */
+document.querySelectorAll('.motion-tile').forEach(tile=>{
+  tile.addEventListener('click', ()=>{
+    const box = tile.querySelector('.box');
+    const preset = tile.dataset.preset;
+    gsap.killTweensOf(box);
+    switch(preset){
+      case 'fade': gsap.fromTo(box,{opacity:0},{opacity:1,duration:.8,ease:'expo.out'}); break;
+      case 'slide': gsap.fromTo(box,{x:-40,opacity:0},{x:0,opacity:1,duration:.6,ease:'expo.out'}); break;
+      case 'scale': gsap.fromTo(box,{scale:.4,opacity:0},{scale:1,opacity:1,duration:.6,ease:'expo.out'}); break;
+      case 'reveal': gsap.fromTo(box,{clipPath:'inset(0 0 100% 0)'},{clipPath:'inset(0 0 0% 0)',duration:.9,ease:'expo.out'}); break;
+      case 'stagger': gsap.fromTo(box,{y:20,opacity:0},{y:0,opacity:1,duration:.5,ease:'expo.out',repeat:0}); break;
+      case 'hero': gsap.fromTo(box,{y:40,opacity:0,scale:.9},{y:0,opacity:1,scale:1,duration:1,ease:'expo.out'}); break;
+      case 'cardhover': gsap.to(box,{y:-10,duration:.4,ease:'expo.out',yoyo:true,repeat:1}); break;
+      case 'imgreveal': gsap.fromTo(box,{scale:1.3,filter:'brightness(0.4)'},{scale:1,filter:'brightness(1)',duration:.9,ease:'expo.out'}); break;
+    }
+  });
+});
+</script>
+</body>
+</html>
