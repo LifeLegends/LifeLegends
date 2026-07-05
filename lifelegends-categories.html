@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Categories & Search | LifeLegends</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg-void:#05050a; --bg-elevated:#0d0d16; --bg-elevated-2:#12121e;
+  --bg-glass:rgba(255,255,255,.04); --border-glass:rgba(255,255,255,.08); --border-glass-hi:rgba(255,255,255,.18);
+  --accent-gold:#d4af6a; --accent-gold-soft:rgba(212,175,106,.15); --accent-gold-strong:rgba(212,175,106,.35);
+  --accent-violet:#6e5bd6; --accent-violet-glow:rgba(110,91,214,.35); --accent-indigo-deep:#2a1f5e;
+  --text-primary:#f5f3ee; --text-secondary:#a6a4b5; --text-muted:#6b6980;
+  --font-display:'Fraunces',Georgia,serif; --font-body:'Inter',sans-serif;
+  --ease:cubic-bezier(.16,1,.3,1); --radius-card:20px; --glow-gold:0 0 40px rgba(212,175,106,.28); --glass-blur:blur(20px);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{background:var(--bg-void);} body{background:var(--bg-void); color:var(--text-primary); font-family:var(--font-body); line-height:1.6; overflow-x:hidden;}
+img,svg{display:block;max-width:100%;} a{color:inherit;text-decoration:none;} button,input,select{font:inherit;color:inherit;background:none;border:none;}
+:focus-visible{outline:2px solid var(--accent-gold); outline-offset:2px;}
+h1,h2,h3{font-family:var(--font-display); line-height:1.1; letter-spacing:-.01em;}
+.eyebrow{font-size:.75rem; letter-spacing:.16em; text-transform:uppercase; color:var(--accent-gold);}
+.container{max-width:1360px; margin:0 auto; padding:0 48px;}
+@media (max-width:900px){ .container{padding:0 24px;} }
+
+/* Nav */
+header{ position:fixed; top:20px; left:50%; transform:translateX(-50%); z-index:200; display:flex; align-items:center;
+  justify-content:space-between; gap:32px; padding:12px 12px 12px 22px; width:min(1120px, calc(100% - 48px));
+  background:rgba(13,13,22,.6); border:1px solid var(--border-glass); border-radius:999px; backdrop-filter:var(--glass-blur); opacity:0; }
+.logo{ display:flex; align-items:center; gap:8px; font-family:var(--font-display); font-size:1rem; }
+.logo .glyph{ width:20px; height:20px; border-radius:50%; background:conic-gradient(from 210deg,var(--accent-gold),var(--accent-violet),var(--accent-gold)); }
+nav{ display:flex; gap:32px; }
+nav a{ font-size:.76rem; letter-spacing:.06em; text-transform:uppercase; color:var(--text-secondary); }
+nav a.active{ color:var(--text-primary); }
+nav a:hover{ color:var(--accent-gold); }
+.icon-btn{ width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; border:1px solid var(--border-glass); transition:all .3s; }
+.icon-btn:hover{ border-color:var(--accent-gold); background:var(--accent-gold-soft); }
+.icon-btn svg{ width:15px; height:15px; }
+@media (max-width:900px){ nav{display:none;} }
+
+main{ padding-top:150px; }
+section{ padding:0 0 100px; }
+
+/* Page intro */
+.page-intro{ margin-bottom:56px; }
+.page-intro h1{ font-size:clamp(2rem,4vw,3rem); margin-top:12px; }
+.page-intro p{ color:var(--text-secondary); margin-top:14px; max-width:560px; }
+
+/* Category grid */
+.cat-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:18px; }
+.cat-card{ position:relative; aspect-ratio:3/4; border-radius:18px; overflow:hidden; border:1px solid var(--border-glass); cursor:pointer; background:var(--bg-elevated); transition:all .4s var(--ease); }
+.cat-card:hover{ border-color:var(--accent-gold); box-shadow:var(--glow-gold); transform:translateY(-5px); }
+.cat-card .art{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; transition:transform .6s var(--ease); }
+.cat-card:hover .art{ transform:scale(1.08); }
+.cat-card .overlay{ position:absolute; inset:0; background:linear-gradient(to top, rgba(5,5,10,.95) 20%, transparent 60%); }
+.cat-card .label{ position:absolute; left:16px; bottom:16px; z-index:2; }
+.cat-card .label .name{ font-family:var(--font-display); font-size:1.05rem; }
+.cat-card .label .count{ font-size:.68rem; color:var(--text-muted); margin-top:3px; }
+@media (max-width:1100px){ .cat-grid{ grid-template-columns:repeat(3,1fr); } }
+@media (max-width:640px){ .cat-grid{ grid-template-columns:repeat(2,1fr); } }
+
+/* Category detail hero (shown when a category is selected) */
+#categoryDetail{ display:none; }
+#categoryDetail.active{ display:block; }
+#categoriesGridView.hidden{ display:none; }
+.cat-hero{ position:relative; height:46vh; min-height:320px; border-radius:24px; overflow:hidden; display:flex; align-items:flex-end; padding:40px; margin-bottom:48px; }
+.cat-hero .bg{ position:absolute; inset:0; background:
+    radial-gradient(ellipse 60% 60% at 30% 30%, var(--accent-violet-glow), transparent 65%),
+    radial-gradient(ellipse 40% 40% at 80% 70%, rgba(212,175,106,.18), transparent 60%),
+    linear-gradient(160deg, var(--bg-elevated-2), var(--bg-void)); }
+.cat-hero-content{ position:relative; z-index:2; }
+.cat-hero-content h2{ font-size:clamp(2rem,4vw,3rem); }
+.cat-hero-content p{ color:var(--text-secondary); margin-top:10px; max-width:520px; }
+.back-to-cats{ display:inline-flex; align-items:center; gap:8px; font-size:.78rem; color:var(--text-secondary); margin-bottom:24px; }
+.back-to-cats:hover{ color:var(--accent-gold); }
+
+/* Discovery layout: filters + results */
+.discover-layout{ display:grid; grid-template-columns:260px 1fr; gap:40px; align-items:start; }
+@media (max-width:1000px){ .discover-layout{ grid-template-columns:1fr; } }
+
+.filter-panel{ border:1px solid var(--border-glass); border-radius:18px; padding:26px; background:var(--bg-elevated); position:sticky; top:150px; }
+.filter-group{ margin-bottom:26px; }
+.filter-group:last-child{ margin-bottom:0; }
+.filter-group h4{ font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:12px; }
+.filter-option{ display:flex; align-items:center; gap:10px; font-size:.85rem; color:var(--text-secondary); padding:6px 0; cursor:pointer; }
+.filter-option input{ accent-color:var(--accent-gold); }
+.filter-option:hover{ color:var(--text-primary); }
+.range-row{ display:flex; align-items:center; gap:10px; font-size:.78rem; color:var(--text-secondary); }
+.range-row input[type=range]{ flex:1; accent-color:var(--accent-gold); }
+.sort-select{ width:100%; padding:10px 14px; border-radius:10px; border:1px solid var(--border-glass); background:rgba(255,255,255,.03); font-size:.82rem; }
+
+.results-toolbar{ display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px; }
+.results-count{ font-size:.85rem; color:var(--text-secondary); }
+.active-filters{ display:flex; gap:8px; flex-wrap:wrap; }
+.filter-chip{ font-size:.72rem; padding:5px 12px; border-radius:999px; background:var(--accent-gold-soft); color:var(--accent-gold); border:1px solid var(--accent-gold-strong); display:flex; align-items:center; gap:6px; }
+.filter-chip button{ font-size:.7rem; }
+
+.result-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+@media (max-width:900px){ .result-grid{ grid-template-columns:repeat(2,1fr); } }
+@media (max-width:600px){ .result-grid{ grid-template-columns:1fr; } }
+.bio-card{ position:relative; aspect-ratio:3/4; border-radius:var(--radius-card); overflow:hidden; border:1px solid var(--border-glass); background:var(--bg-elevated); transition:all .4s var(--ease); }
+.bio-card:hover{ border-color:var(--accent-gold); box-shadow:var(--glow-gold); transform:translateY(-6px); }
+.bio-card img{ width:100%; height:100%; object-fit:cover; object-position:center 18%; filter:grayscale(1) contrast(1.2) brightness(.8); }
+.bio-card .duotone{ position:absolute; inset:0; background:linear-gradient(160deg, rgba(110,91,214,.5), rgba(212,175,106,.2)); mix-blend-mode:color; }
+.bio-card .scrim{ position:absolute; inset:0; background:linear-gradient(to top, rgba(5,5,10,.95) 18%, transparent 58%); }
+.bio-card .chip{ position:absolute; top:14px; left:14px; z-index:2; font-size:.62rem; letter-spacing:.06em; text-transform:uppercase; padding:4px 11px; border-radius:999px; background:var(--accent-gold-soft); color:var(--accent-gold); border:1px solid var(--accent-gold-strong); }
+.bio-card .info{ position:absolute; left:16px; bottom:16px; z-index:2; }
+.bio-card .info .name{ font-family:var(--font-display); font-size:1rem; }
+.bio-card .info .role{ font-size:.68rem; color:var(--text-muted); margin-top:2px; }
+
+.pagination{ display:flex; justify-content:center; gap:8px; margin-top:44px; }
+.page-btn{ width:38px; height:38px; border-radius:50%; border:1px solid var(--border-glass); display:flex; align-items:center; justify-content:center; font-size:.8rem; color:var(--text-secondary); }
+.page-btn.active{ background:var(--accent-gold); color:var(--bg-void); border-color:var(--accent-gold); }
+.page-btn:hover:not(.active){ border-color:var(--border-glass-hi); color:var(--text-primary); }
+
+.empty-state{ text-align:center; padding:80px 20px; color:var(--text-muted); }
+.empty-state svg{ margin:0 auto 20px; opacity:.4; }
+
+/* ===== SEARCH OVERLAY ===== */
+.search-overlay{ position:fixed; inset:0; background:rgba(5,5,10,.97); z-index:300; display:none; flex-direction:column; align-items:center; padding-top:12vh; }
+.search-overlay.open{ display:flex; }
+.search-overlay-nebula{ position:absolute; inset:0; background:radial-gradient(ellipse 50% 40% at 50% 30%, var(--accent-violet-glow), transparent 65%); filter:blur(30px); pointer-events:none; }
+.search-close{ position:absolute; top:32px; right:44px; font-size:.8rem; color:var(--text-muted); z-index:2; }
+.search-inner{ position:relative; z-index:2; width:min(680px,90vw); text-align:center; }
+.search-inner h2{ font-size:clamp(1.5rem,3vw,2.25rem); margin-bottom:26px; }
+.search-box{ position:relative; }
+.search-box input{ width:100%; padding:18px 52px; border-radius:999px; border:1px solid var(--border-glass-hi); background:rgba(255,255,255,.04); font-size:1rem; text-align:left; }
+.search-box input:focus{ border-color:var(--accent-gold); }
+.search-box svg.icon{ position:absolute; left:20px; top:50%; transform:translateY(-50%); opacity:.6; }
+.search-box .kbd{ position:absolute; right:16px; top:50%; transform:translateY(-50%); font-size:.65rem; color:var(--text-muted); border:1px solid var(--border-glass); padding:3px 7px; border-radius:5px; }
+.search-meta-row{ margin-top:28px; text-align:left; }
+.search-meta-row h5{ font-size:.68rem; letter-spacing:.08em; text-transform:uppercase; color:var(--text-muted); margin-bottom:12px; }
+.chips-row{ display:flex; gap:10px; flex-wrap:wrap; }
+.s-pill{ padding:8px 16px; border-radius:999px; border:1px solid var(--border-glass); font-size:.8rem; color:var(--text-secondary); cursor:pointer; transition:all .25s; }
+.s-pill:hover{ border-color:var(--accent-gold); color:var(--text-primary); background:var(--accent-gold-soft); }
+.search-results{ margin-top:8px; text-align:left; max-height:340px; overflow-y:auto; }
+.search-result-item{ display:flex; align-items:center; gap:14px; padding:12px 10px; border-radius:12px; cursor:pointer; }
+.search-result-item:hover{ background:var(--bg-glass); }
+.search-result-item img{ width:44px; height:44px; border-radius:8px; object-fit:cover; filter:grayscale(1) contrast(1.2) brightness(.85); }
+.search-result-item .sr-name{ font-family:var(--font-display); font-size:.95rem; }
+.search-result-item .sr-role{ font-size:.7rem; color:var(--text-muted); }
+.search-loading{ display:flex; gap:12px; padding:12px 10px; }
+.search-skel{ background:linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-elevated-2) 50%, var(--bg-elevated) 75%); background-size:200% 100%; animation:shimmer 1.4s infinite; border-radius:8px; }
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.search-empty{ text-align:center; padding:30px 0; color:var(--text-muted); font-size:.85rem; }
+
+.reveal{ opacity:0; }
+</style>
+</head>
+<body>
+
+<header id="siteHeader">
+  <div class="logo"><span class="glyph"></span>LIFELEGENDS</div>
+  <nav>
+    <a href="lifelegends-homepage.html">Home</a>
+    <a href="lifelegends-categories.html" class="active">Categories</a>
+    <a href="lifelegends-biography.html">Biographies</a>
+    <a href="#">About</a>
+  </nav>
+  <button class="icon-btn" id="searchTrigger" aria-label="Search">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+  </button>
+</header>
+
+<main>
+<div class="container">
+
+  <!-- CATEGORY GRID VIEW -->
+  <div id="categoriesGridView">
+    <section>
+      <div class="page-intro reveal">
+        <span class="eyebrow">Explore</span>
+        <h1>Legends by Category</h1>
+        <p>Ten pillars of human achievement — choose a category to discover the lives that defined it.</p>
+      </div>
+      <div class="cat-grid" id="catGrid"></div>
+    </section>
+  </div>
+
+  <!-- CATEGORY DETAIL VIEW -->
+  <div id="categoryDetail">
+    <button class="back-to-cats" id="backToCats">‹ All Categories</button>
+    <div class="cat-hero">
+      <div class="bg"></div>
+      <div class="cat-hero-content">
+        <span class="eyebrow" id="catHeroEyebrow">Category</span>
+        <h2 id="catHeroTitle">Innovators</h2>
+        <p id="catHeroDesc">The engineers, scientists, and builders whose ideas redefined what was possible.</p>
+      </div>
+    </div>
+
+    <div class="discover-layout">
+      <aside class="filter-panel">
+        <div class="filter-group">
+          <h4>Sort By</h4>
+          <select class="sort-select" id="sortSelect">
+            <option value="popularity">Popularity</option>
+            <option value="alpha">Alphabetical</option>
+            <option value="recent">Recently Added</option>
+            <option value="reading">Reading Time</option>
+          </select>
+        </div>
+        <div class="filter-group">
+          <h4>Profession</h4>
+          <label class="filter-option"><input type="checkbox" value="Scientist"/> Scientist</label>
+          <label class="filter-option"><input type="checkbox" value="Inventor"/> Inventor</label>
+          <label class="filter-option"><input type="checkbox" value="Leader"/> Leader</label>
+          <label class="filter-option"><input type="checkbox" value="Artist"/> Artist</label>
+        </div>
+        <div class="filter-group">
+          <h4>Country</h4>
+          <label class="filter-option"><input type="checkbox" value="USA"/> United States</label>
+          <label class="filter-option"><input type="checkbox" value="Germany"/> Germany</label>
+          <label class="filter-option"><input type="checkbox" value="Serbia"/> Serbia</label>
+          <label class="filter-option"><input type="checkbox" value="Poland"/> Poland</label>
+          <label class="filter-option"><input type="checkbox" value="South Africa"/> South Africa</label>
+          <label class="filter-option"><input type="checkbox" value="Italy"/> Italy</label>
+        </div>
+        <div class="filter-group">
+          <h4>Birth Year</h4>
+          <div class="range-row"><span>1400</span><input type="range" min="1400" max="2000" value="1700" id="yearRange"/><span id="yearVal">1700</span></div>
+        </div>
+      </aside>
+
+      <div>
+        <div class="results-toolbar">
+          <div class="results-count" id="resultsCount">4 legends found</div>
+          <div class="active-filters" id="activeFilters"></div>
+        </div>
+        <div class="result-grid" id="resultGrid"></div>
+        <div class="empty-state" id="emptyState" style="display:none;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <p>No legends match these filters yet.</p>
+        </div>
+        <div class="pagination">
+          <button class="page-btn">‹</button>
+          <button class="page-btn active">1</button>
+          <button class="page-btn">›</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</main>
+
+<!-- SEARCH OVERLAY -->
+<div class="search-overlay" id="searchOverlay">
+  <div class="search-overlay-nebula"></div>
+  <button class="search-close" id="searchClose">Close ✕</button>
+  <div class="search-inner">
+    <h2>Who are you looking for?</h2>
+    <div class="search-box">
+      <svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchField" placeholder="Search for a legend..." autocomplete="off"/>
+      <span class="kbd">ESC</span>
+    </div>
+    <div id="searchDefaultState">
+      <div class="search-meta-row">
+        <h5>Popular Searches</h5>
+        <div class="chips-row">
+          <span class="s-pill" data-q="Albert Einstein">Albert Einstein</span>
+          <span class="s-pill" data-q="Marie Curie">Marie Curie</span>
+          <span class="s-pill" data-q="Nikola Tesla">Nikola Tesla</span>
+          <span class="s-pill" data-q="Leonardo da Vinci">Leonardo da Vinci</span>
+        </div>
+      </div>
+      <div class="search-meta-row" id="recentSearchesWrap" style="display:none;">
+        <h5>Recent Searches</h5>
+        <div class="chips-row" id="recentChips"></div>
+      </div>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger);
+const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- Data ---------- */
+const categories = [
+  {name:'Scientists', count:'132 Biographies'}, {name:'Entrepreneurs', count:'98 Biographies'},
+  {name:'Freedom Fighters', count:'76 Biographies'}, {name:'Inventors', count:'142 Biographies'},
+  {name:'Politicians', count:'110 Biographies'}, {name:'Artists', count:'118 Biographies'},
+  {name:'Writers', count:'87 Biographies'}, {name:'Athletes', count:'64 Biographies'},
+  {name:'Philosophers', count:'52 Biographies'}, {name:'Explorers', count:'41 Biographies'},
+];
+
+const legends = [
+  {name:'Albert Einstein', role:'Scientist', country:'Germany', year:1879, popularity:98, chip:'Physics',
+   img:'https://commons.wikimedia.org/wiki/Special:FilePath/Albert%20Einstein%20Head.jpg?width=500'},
+  {name:'Marie Curie', role:'Scientist', country:'Poland', year:1867, popularity:91, chip:'Science',
+   img:'https://commons.wikimedia.org/wiki/Special:FilePath/Marie%20Curie%201903.jpg?width=500'},
+  {name:'Nikola Tesla', role:'Inventor', country:'Serbia', year:1856, popularity:96, chip:'Innovator',
+   img:'https://commons.wikimedia.org/wiki/Special:FilePath/Nikola%20Tesla%20by%20Sarony%20c1898.jpg?width=500'},
+  {name:'Nelson Mandela', role:'Leader', country:'South Africa', year:1918, popularity:89, chip:'Leader',
+   img:'https://commons.wikimedia.org/wiki/Special:FilePath/Nelson%20Mandela-2008%20(edit).jpg?width=500'},
+  {name:'Leonardo da Vinci', role:'Artist', country:'Italy', year:1452, popularity:94, chip:'Arts',
+   img:'https://commons.wikimedia.org/wiki/Special:FilePath/Leonardo%20da%20Vinci%20-%20presumed%20self-portrait%20-%20WGA12798.jpg?width=500'},
+];
+
+/* ---------- Render category grid ---------- */
+function categoryArt(i){
+  const hue = i*36 % 360;
+  return `<svg viewBox="0 0 160 160" width="60%"><circle cx="80" cy="80" r="50" fill="none" stroke="hsl(${hue},60%,65%)" stroke-width="1.4" opacity=".55"/><circle cx="80" cy="80" r="30" fill="none" stroke="#d4af6a" stroke-width="1" opacity=".5"/></svg>`;
+}
+document.getElementById('catGrid').innerHTML = categories.map((c,i)=>`
+  <div class="cat-card reveal-stagger" data-cat="${c.name}">
+    <div class="art">${categoryArt(i)}</div>
+    <div class="overlay"></div>
+    <div class="label"><div class="name">${c.name}</div><div class="count">${c.count}</div></div>
+  </div>`).join('');
+
+/* ---------- Category detail toggling ---------- */
+const gridView = document.getElementById('categoriesGridView');
+const detailView = document.getElementById('categoryDetail');
+document.querySelectorAll('.cat-card').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    const name = card.dataset.cat;
+    document.getElementById('catHeroEyebrow').textContent = 'Category';
+    document.getElementById('catHeroTitle').textContent = name;
+    document.getElementById('catHeroDesc').textContent = `Explore the lives and legacies of history's most influential ${name.toLowerCase()}.`;
+    gridView.classList.add('hidden');
+    detailView.classList.add('active');
+    renderResults();
+    window.scrollTo({top:0,behavior:'instant'});
+  });
+});
+document.getElementById('backToCats').addEventListener('click', ()=>{
+  detailView.classList.remove('active');
+  gridView.classList.remove('hidden');
+});
+
+/* ---------- Filtering + sorting ---------- */
+function getActiveFilters(){
+  const professions = [...document.querySelectorAll('.filter-group:nth-child(2) input:checked')].map(i=>i.value);
+  const countries = [...document.querySelectorAll('.filter-group:nth-child(3) input:checked')].map(i=>i.value);
+  return {professions, countries, minYear:+document.getElementById('yearRange').value};
+}
+function renderResults(){
+  const {professions, countries, minYear} = getActiveFilters();
+  const sortBy = document.getElementById('sortSelect').value;
+  let filtered = legends.filter(l=>
+    (professions.length===0 || professions.includes(l.role)) &&
+    (countries.length===0 || countries.includes(l.country)) &&
+    (l.year >= 1400)
+  );
+  if(sortBy==='alpha') filtered.sort((a,b)=>a.name.localeCompare(b.name));
+  else if(sortBy==='recent') filtered.sort((a,b)=>b.year-a.year);
+  else if(sortBy==='reading') filtered.sort((a,b)=>a.name.length-b.name.length);
+  else filtered.sort((a,b)=>b.popularity-a.popularity);
+
+  document.getElementById('resultsCount').textContent = `${filtered.length} legend${filtered.length!==1?'s':''} found`;
+  document.getElementById('resultGrid').style.display = filtered.length ? 'grid':'none';
+  document.getElementById('emptyState').style.display = filtered.length ? 'none':'block';
+
+  document.getElementById('resultGrid').innerHTML = filtered.map(l=>`
+    <div class="bio-card reveal-stagger">
+      <img src="${l.img}" alt="${l.name}"/><div class="duotone"></div><div class="scrim"></div>
+      <span class="chip">${l.chip}</span>
+      <div class="info"><div class="name">${l.name}</div><div class="role">${l.role}</div></div>
+    </div>`).join('');
+
+  const chips = [...professions, ...countries].map(f=>`<span class="filter-chip">${f}</span>`).join('');
+  document.getElementById('activeFilters').innerHTML = chips;
+
+  if(!prefersReduced){
+    gsap.utils.toArray('#resultGrid .bio-card').forEach((el,i)=>{
+      gsap.fromTo(el,{opacity:0,y:20},{opacity:1,y:0,duration:.5,ease:'expo.out',delay:i*0.06});
+    });
+  }
+}
+document.getElementById('sortSelect').addEventListener('change', renderResults);
+document.querySelectorAll('.filter-panel input[type=checkbox]').forEach(cb=>cb.addEventListener('change', renderResults));
+document.getElementById('yearRange').addEventListener('input', e=>{
+  document.getElementById('yearVal').textContent = e.target.value;
+  renderResults();
+});
+
+/* ---------- Search overlay ---------- */
+const searchOverlay = document.getElementById('searchOverlay');
+const searchField = document.getElementById('searchField');
+const searchResults = document.getElementById('searchResults');
+const searchDefaultState = document.getElementById('searchDefaultState');
+let recentSearches = [];
+
+function openSearch(){
+  searchOverlay.classList.add('open');
+  setTimeout(()=>searchField.focus(), 50);
+}
+function closeSearch(){
+  searchOverlay.classList.remove('open');
+  searchField.value='';
+  searchResults.innerHTML='';
+  searchDefaultState.style.display='block';
+}
+document.getElementById('searchTrigger').addEventListener('click', openSearch);
+document.getElementById('searchClose').addEventListener('click', closeSearch);
+window.addEventListener('keydown', e=>{
+  if((e.metaKey||e.ctrlKey) && e.key.toLowerCase()==='k'){ e.preventDefault(); openSearch(); }
+  if(e.key==='Escape') closeSearch();
+});
+
+function runSearch(query){
+  if(!query){
+    searchDefaultState.style.display='block';
+    searchResults.innerHTML='';
+    return;
+  }
+  searchDefaultState.style.display='none';
+  searchResults.innerHTML = `<div class="search-loading"><div class="search-skel" style="width:44px;height:44px;"></div><div style="flex:1;"><div class="search-skel" style="height:12px;width:50%;margin-bottom:8px;"></div><div class="search-skel" style="height:10px;width:30%;"></div></div></div>`;
+
+  setTimeout(()=>{
+    const matches = legends.filter(l=> l.name.toLowerCase().includes(query.toLowerCase()));
+    if(matches.length===0){
+      searchResults.innerHTML = `<div class="search-empty">No legends found for "${query}".</div>`;
+      return;
+    }
+    searchResults.innerHTML = matches.map(l=>`
+      <div class="search-result-item">
+        <img src="${l.img}" alt="${l.name}"/>
+        <div><div class="sr-name">${l.name}</div><div class="sr-role">${l.role} · ${l.country}</div></div>
+      </div>`).join('');
+    if(!recentSearches.includes(query)){
+      recentSearches.unshift(query);
+      recentSearches = recentSearches.slice(0,4);
+    }
+  }, 420);
+}
+searchField.addEventListener('input', e=> runSearch(e.target.value.trim()));
+document.querySelectorAll('.s-pill').forEach(pill=>{
+  pill.addEventListener('click', ()=>{
+    searchField.value = pill.dataset.q;
+    runSearch(pill.dataset.q);
+  });
+});
+
+/* ---------- Scroll animations ---------- */
+gsap.to('header',{opacity:1,duration:1,delay:.1});
+gsap.utils.toArray('.reveal').forEach(el=>{
+  gsap.fromTo(el,{opacity:0,y:24},{opacity:1,y:0,duration:.7,ease:'expo.out',scrollTrigger:{trigger:el,start:'top 90%'}});
+});
+gsap.utils.toArray('.reveal-stagger').forEach((el,i)=>{
+  gsap.fromTo(el,{opacity:0,y:30},{opacity:1,y:0,duration:.6,ease:'expo.out',delay:(i%5)*0.06,
+    scrollTrigger:{trigger:el,start:'top 92%'}});
+});
+
+if(prefersReduced){ gsap.set('.reveal, .reveal-stagger, header',{opacity:1,y:0}); }
+</script>
+</body>
+</html>
