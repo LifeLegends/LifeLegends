@@ -161,6 +161,8 @@ tr:hover td{ background:rgba(255,255,255,.015); }
 .cat-row .meta .count{ font-size:.72rem; color:var(--text-muted); }
 
 .state-empty{ text-align:center; padding:60px 20px; color:var(--text-muted); }
+.sc-panel{ display:none; }
+.sc-panel.active{ display:block; }
 .skeleton-row{ height:52px; background:linear-gradient(90deg,var(--bg-elevated) 25%,var(--bg-elevated-2) 50%,var(--bg-elevated) 75%); background-size:200% 100%; animation:shimmer 1.5s infinite; border-radius:8px; margin-bottom:8px; }
 @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 
@@ -176,12 +178,12 @@ tr:hover td{ background:rgba(255,255,255,.015); }
     <div class="logo"><span class="glyph"></span>LIFELEGENDS</div>
     <p class="sub">Admin Console</p>
     <form id="loginForm">
-      <div class="login-field"><label>Email</label><input type="email" id="loginEmail" value="admin@lifelegends.com" required/></div>
-      <div class="login-field"><label>Password</label><input type="password" id="loginPassword" value="password123" required/></div>
+      <div class="login-field"><label>Username</label><input type="text" id="loginEmail" placeholder="Enter admin username" autocomplete="off" required/></div>
+      <div class="login-field"><label>Password</label><input type="password" id="loginPassword" placeholder="Enter admin password" required/></div>
       <button class="login-btn" type="submit">Sign In</button>
-      <p class="login-error" id="loginError">Invalid email or password.</p>
+      <p class="login-error" id="loginError">Incorrect username or password.</p>
     </form>
-    <p class="login-note">Auth UI mirrors <code>lib/supabase/client.ts</code> from Phase 1. Any email/password signs in for this demo — connect a real Supabase project to enforce real credentials.</p>
+    <p class="login-note">Demo-only credential gate — client-side only. For real production security, this must be replaced with server-verified Supabase Auth.</p>
   </div>
 </div>
 
@@ -190,6 +192,7 @@ tr:hover td{ background:rgba(255,255,255,.015); }
     <div class="logo"><span class="glyph"></span>LIFELEGENDS</div>
     <a class="side-link active" data-view="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Dashboard</a>
     <a class="side-link" data-view="biographies"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/></svg>Biographies</a>
+    <a class="side-link" data-view="sitecontent"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v4H4zM4 12h10v8H4zM17 12h3v8h-3z"/></svg>Site Content</a>
     <a class="side-link" data-view="categories"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Categories</a>
     <a class="side-link" data-view="media"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>Media Library</a>
     <a class="side-link" data-view="discovery"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Search & Discovery</a>
@@ -218,6 +221,7 @@ tr:hover td{ background:rgba(255,255,255,.015); }
       <div class="panel"><h3>Quick Actions</h3>
         <div class="quick-actions">
           <button class="btn btn-outline" onclick="openEditor()">Create Biography</button>
+          <button class="btn btn-outline" onclick="switchView('sitecontent')">Edit Site Content</button>
           <button class="btn btn-outline" onclick="switchView('categories')">Manage Categories</button>
           <button class="btn btn-outline" onclick="switchView('media')">Upload Media</button>
           <button class="btn btn-outline" onclick="switchView('analytics')">View Analytics</button>
@@ -239,6 +243,54 @@ tr:hover td{ background:rgba(255,255,255,.015); }
         <thead><tr><th></th><th>Name</th><th>Category</th><th>Status</th><th>Views</th><th>Updated</th><th></th></tr></thead>
         <tbody id="bioTableBody"></tbody>
       </table>
+    </section>
+
+    <section class="view" id="view-sitecontent">
+      <div class="page-head"><div><h1>Site Content</h1><p>Edit the words and imagery visitors see on the public site — no code required.</p></div>
+        <button class="btn btn-gold" onclick="saveSiteContent()">Save Changes</button>
+      </div>
+
+      <div class="toolbar-row" style="border-bottom:1px solid var(--border-glass);margin-bottom:24px;padding-bottom:4px;">
+        <div class="etab active" data-sctab="hero" style="cursor:pointer;">Hero Section</div>
+        <div class="etab" data-sctab="about" style="cursor:pointer;">About Page</div>
+        <div class="etab" data-sctab="footer" style="cursor:pointer;">Footer</div>
+      </div>
+
+      <div class="sc-panel active" id="sc-hero">
+        <div class="panel" style="margin-bottom:20px;">
+          <h3>Hero — Homepage</h3>
+          <div class="field"><label>Eyebrow Label</label><input id="scHeroEyebrow" value="The Stories That Shape Humanity"/></div>
+          <div class="field-row">
+            <div class="field"><label>Headline — Line 1</label><input id="scHeroLine1" value="Legends"/></div>
+            <div class="field"><label>Headline — Line 2</label><input id="scHeroLine2" value="Never Die"/></div>
+          </div>
+          <div class="field"><label>Supporting Paragraph</label><textarea id="scHeroPara">Discover the extraordinary lives of iconic people who changed the world forever — preserved here as a living, breathing archive.</textarea></div>
+          <div class="field-row">
+            <div class="field"><label>CTA Button Text</label><input id="scHeroCta" value="Explore Legends"/></div>
+            <div class="field"><label>Hero Portrait Image</label><input id="scHeroImage" value="Select from Media Library"/></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sc-panel" id="sc-about">
+        <div class="panel" style="margin-bottom:20px;">
+          <h3>About Page</h3>
+          <div class="field"><label>Page Title</label><input id="scAboutTitle" value="About LifeLegends"/></div>
+          <div class="field"><label>Mission Statement</label><textarea id="scAboutMission">LifeLegends exists to preserve and celebrate the lives that shaped humanity — a digital museum, open to everyone, forever.</textarea></div>
+          <div class="field"><label>Full About Body</label><textarea id="scAboutBody" style="min-height:160px;">Founded to honor history's most influential figures, LifeLegends brings together rigorously researched biographies, timelines, and archival imagery into one immersive experience...</textarea></div>
+        </div>
+      </div>
+
+      <div class="sc-panel" id="sc-footer">
+        <div class="panel" style="margin-bottom:20px;">
+          <h3>Footer</h3>
+          <div class="field"><label>Tagline</label><input id="scFooterTagline" value="Honoring the lives that inspire generations, one story at a time."/></div>
+          <div class="field-row">
+            <div class="field"><label>Copyright Line</label><input id="scFooterCopyright" value="© 2026 LifeLegends. All rights reserved."/></div>
+            <div class="field"><label>Newsletter Prompt</label><input id="scFooterNewsletter" value="Get the stories that inspire, in your inbox."/></div>
+          </div>
+        </div>
+      </div>
     </section>
 
     <section class="view" id="view-categories">
@@ -390,8 +442,22 @@ function mockAsync(data, delay=250){ return new Promise(r=>setTimeout(()=>r({dat
 
 document.getElementById('loginForm').addEventListener('submit', (e)=>{
   e.preventDefault();
-  const email = document.getElementById('loginEmail').value;
-  if(!email){ document.getElementById('loginError').style.display='block'; return; }
+  // ⚠️ DEMO-ONLY AUTH — credentials are visible in page source to anyone.
+  // This is NOT secure for a real production admin panel. Once a real
+  // Supabase project exists, replace this whole block with:
+  //   const { data, error } = await supabase.auth.signInWithPassword({ email, password })
+  // and let Supabase (server-side) verify credentials instead of this file.
+  const ADMIN_USERNAME = 'ife legends';
+  const ADMIN_PASSWORD = 'unknown_biography_07';
+
+  const enteredUser = document.getElementById('loginEmail').value.trim();
+  const enteredPass = document.getElementById('loginPassword').value;
+
+  if(enteredUser !== ADMIN_USERNAME || enteredPass !== ADMIN_PASSWORD){
+    document.getElementById('loginError').style.display='block';
+    return;
+  }
+  document.getElementById('loginError').style.display='none';
   document.getElementById('loginScreen').style.display='none';
   document.getElementById('adminApp').classList.add('active');
   renderAll();
@@ -487,6 +553,46 @@ function renderAnalytics(){
     <div class="activity-item"><div class="dot"></div><div>${b.name} — <span style="color:var(--text-muted);">${b.views.toLocaleString()} views</span></div></div>`).join('');
   document.getElementById('popularCatList').innerHTML = [...db.categories].sort((a,b)=>b.count-a.count).slice(0,4).map(c=>`
     <div class="activity-item"><div class="dot"></div><div>${c.name} — <span style="color:var(--text-muted);">${c.count} biographies</span></div></div>`).join('');
+}
+
+/* =========================================================================
+   SITE CONTENT (Hero / About / Footer) — mock content store.
+   In production this maps to a `site_content` Supabase table (singleton
+   rows keyed by section: 'hero', 'about', 'footer'), read by the public
+   Next.js pages at build/request time instead of hardcoded copy.
+   ========================================================================= */
+const siteContent = {
+  hero:{ eyebrow:'The Stories That Shape Humanity', line1:'Legends', line2:'Never Die',
+    paragraph:'Discover the extraordinary lives of iconic people who changed the world forever — preserved here as a living, breathing archive.',
+    cta:'Explore Legends', image:'' },
+  about:{ title:'About LifeLegends', mission:'LifeLegends exists to preserve and celebrate the lives that shaped humanity — a digital museum, open to everyone, forever.', body:'' },
+  footer:{ tagline:'Honoring the lives that inspire generations, one story at a time.', copyright:'© 2026 LifeLegends. All rights reserved.', newsletter:'Get the stories that inspire, in your inbox.' }
+};
+
+document.querySelectorAll('[data-sctab]').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('[data-sctab]').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.sc-panel').forEach(p=>p.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('sc-'+tab.dataset.sctab).classList.add('active');
+  });
+});
+
+function saveSiteContent(){
+  // Reads every field back into the siteContent object — mirrors what a
+  // real save would upsert into Supabase's `site_content` table.
+  siteContent.hero.eyebrow = document.getElementById('scHeroEyebrow').value;
+  siteContent.hero.line1 = document.getElementById('scHeroLine1').value;
+  siteContent.hero.line2 = document.getElementById('scHeroLine2').value;
+  siteContent.hero.paragraph = document.getElementById('scHeroPara').value;
+  siteContent.hero.cta = document.getElementById('scHeroCta').value;
+  siteContent.about.title = document.getElementById('scAboutTitle').value;
+  siteContent.about.mission = document.getElementById('scAboutMission').value;
+  siteContent.about.body = document.getElementById('scAboutBody').value;
+  siteContent.footer.tagline = document.getElementById('scFooterTagline').value;
+  siteContent.footer.copyright = document.getElementById('scFooterCopyright').value;
+  siteContent.footer.newsletter = document.getElementById('scFooterNewsletter').value;
+  toast('Site content saved — homepage, About, and footer updated');
 }
 
 function renderAll(){ renderDashboard(); renderBiographies(); renderCategories(); renderMedia(); renderDiscovery(); renderAnalytics(); }
