@@ -4,6 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Categories & Search | LifeLegends</title>
+<meta name="description" content="Browse LifeLegends by category — Scientists, Inventors, Freedom Fighters, Artists, and more — or search instantly for any biography.">
+<link rel="canonical" href="https://lifelegends.example/categories">
+<meta property="og:title" content="Categories & Search | LifeLegends">
+<meta property="og:description" content="Browse biographies by category or search instantly.">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -12,7 +17,7 @@
   --bg-glass:rgba(255,255,255,.04); --border-glass:rgba(255,255,255,.08); --border-glass-hi:rgba(255,255,255,.18);
   --accent-gold:#d4af6a; --accent-gold-soft:rgba(212,175,106,.15); --accent-gold-strong:rgba(212,175,106,.35);
   --accent-violet:#6e5bd6; --accent-violet-glow:rgba(110,91,214,.35); --accent-indigo-deep:#2a1f5e;
-  --text-primary:#f5f3ee; --text-secondary:#a6a4b5; --text-muted:#6b6980;
+  --text-primary:#f5f3ee; --text-secondary:#a6a4b5; --text-muted:#83819a;
   --font-display:'Fraunces',Georgia,serif; --font-body:'Inter',sans-serif;
   --ease:cubic-bezier(.16,1,.3,1); --radius-card:20px; --glow-gold:0 0 40px rgba(212,175,106,.28); --glass-blur:blur(20px);
 }
@@ -51,7 +56,12 @@ section{ padding:0 0 100px; }
 /* Category grid */
 .cat-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:18px; }
 .cat-card{ position:relative; aspect-ratio:3/4; border-radius:18px; overflow:hidden; border:1px solid var(--border-glass); cursor:pointer; background:var(--bg-elevated); transition:all .4s var(--ease); }
-.cat-card:hover{ border-color:var(--accent-gold); box-shadow:var(--glow-gold); transform:translateY(-5px); }
+.cat-card:hover{ border-color:var(--border-glass-hi); }
+.cat-card-disabled{ cursor:default; opacity:.55; }
+.cat-card-disabled:hover{ border-color:var(--border-glass); transform:none; }
+.cat-card-disabled .art{ filter:grayscale(1); }
+.soon-badge{ position:absolute; top:14px; right:14px; z-index:2; font-size:.6rem; letter-spacing:.06em; text-transform:uppercase;
+  padding:4px 10px; border-radius:999px; background:rgba(255,255,255,.06); color:var(--text-muted); border:1px solid var(--border-glass-hi); }
 .cat-card .art{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; transition:transform .6s var(--ease); }
 .cat-card:hover .art{ transform:scale(1.08); }
 .cat-card .overlay{ position:absolute; inset:0; background:linear-gradient(to top, rgba(5,5,10,.95) 20%, transparent 60%); }
@@ -147,10 +157,12 @@ section{ padding:0 0 100px; }
 .search-empty{ text-align:center; padding:30px 0; color:var(--text-muted); font-size:.85rem; }
 
 .reveal{ opacity:0; }
+.skip-link{ position:absolute; left:-9999px; top:0; z-index:1000; background:var(--accent-gold); color:var(--bg-void); padding:12px 20px; border-radius:8px; font-size:.85rem; font-weight:600; }
+.skip-link:focus{ left:16px; top:16px; }
 </style>
 </head>
 <body>
-
+<a href="#main" class="skip-link">Skip to content</a>
 <header id="siteHeader">
   <div class="logo"><span class="glyph"></span>LIFELEGENDS</div>
   <nav>
@@ -159,12 +171,12 @@ section{ padding:0 0 100px; }
     <a href="lifelegends-biography.html">Biographies</a>
     <a href="#">About</a>
   </nav>
-  <button class="icon-btn" id="searchTrigger" aria-label="Search">
+  <button class="icon-btn" id="searchTrigger" aria-label="Search" aria-expanded="false" aria-haspopup="dialog">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
   </button>
 </header>
 
-<main>
+<main id="main">
 <div class="container">
 
   <!-- CATEGORY GRID VIEW -->
@@ -247,7 +259,7 @@ section{ padding:0 0 100px; }
 </main>
 
 <!-- SEARCH OVERLAY -->
-<div class="search-overlay" id="searchOverlay">
+<div class="search-overlay" id="searchOverlay" role="dialog" aria-modal="true" aria-label="Search LifeLegends">
   <div class="search-overlay-nebula"></div>
   <button class="search-close" id="searchClose">Close ✕</button>
   <div class="search-inner">
@@ -284,23 +296,23 @@ const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').mat
 
 /* ---------- Data ---------- */
 const categories = [
-  {name:'Scientists', count:'132 Biographies'}, {name:'Entrepreneurs', count:'98 Biographies'},
-  {name:'Freedom Fighters', count:'76 Biographies'}, {name:'Inventors', count:'142 Biographies'},
-  {name:'Politicians', count:'110 Biographies'}, {name:'Artists', count:'118 Biographies'},
-  {name:'Writers', count:'87 Biographies'}, {name:'Athletes', count:'64 Biographies'},
-  {name:'Philosophers', count:'52 Biographies'}, {name:'Explorers', count:'41 Biographies'},
+  {name:'Scientists', count:'2 Biographies', hasContent:true}, {name:'Entrepreneurs', count:'Coming Soon', hasContent:false},
+  {name:'Freedom Fighters', count:'1 Biography', hasContent:true}, {name:'Inventors', count:'1 Biography', hasContent:true},
+  {name:'Politicians', count:'Coming Soon', hasContent:false}, {name:'Artists', count:'1 Biography', hasContent:true},
+  {name:'Writers', count:'Coming Soon', hasContent:false}, {name:'Athletes', count:'Coming Soon', hasContent:false},
+  {name:'Philosophers', count:'Coming Soon', hasContent:false}, {name:'Explorers', count:'Coming Soon', hasContent:false},
 ];
 
 const legends = [
-  {name:'Albert Einstein', role:'Scientist', country:'Germany', year:1879, popularity:98, chip:'Physics',
+  {name:'Albert Einstein', slug:'einstein', role:'Scientist', country:'Germany', year:1879, popularity:98, chip:'Physics',
    img:'https://commons.wikimedia.org/wiki/Special:FilePath/Albert%20Einstein%20Head.jpg?width=500'},
-  {name:'Marie Curie', role:'Scientist', country:'Poland', year:1867, popularity:91, chip:'Science',
+  {name:'Marie Curie', slug:'curie', role:'Scientist', country:'Poland', year:1867, popularity:91, chip:'Science',
    img:'https://commons.wikimedia.org/wiki/Special:FilePath/Marie%20Curie%201903.jpg?width=500'},
-  {name:'Nikola Tesla', role:'Inventor', country:'Serbia', year:1856, popularity:96, chip:'Innovator',
+  {name:'Nikola Tesla', slug:'tesla', role:'Inventor', country:'Serbia', year:1856, popularity:96, chip:'Innovator',
    img:'https://commons.wikimedia.org/wiki/Special:FilePath/Nikola%20Tesla%20by%20Sarony%20c1898.jpg?width=500'},
-  {name:'Nelson Mandela', role:'Leader', country:'South Africa', year:1918, popularity:89, chip:'Leader',
+  {name:'Nelson Mandela', slug:'mandela', role:'Leader', country:'South Africa', year:1918, popularity:89, chip:'Leader',
    img:'https://commons.wikimedia.org/wiki/Special:FilePath/Nelson%20Mandela-2008%20(edit).jpg?width=500'},
-  {name:'Leonardo da Vinci', role:'Artist', country:'Italy', year:1452, popularity:94, chip:'Arts',
+  {name:'Leonardo da Vinci', slug:'davinci', role:'Artist', country:'Italy', year:1452, popularity:94, chip:'Arts',
    img:'https://commons.wikimedia.org/wiki/Special:FilePath/Leonardo%20da%20Vinci%20-%20presumed%20self-portrait%20-%20WGA12798.jpg?width=500'},
 ];
 
@@ -310,9 +322,11 @@ function categoryArt(i){
   return `<svg viewBox="0 0 160 160" width="60%"><circle cx="80" cy="80" r="50" fill="none" stroke="hsl(${hue},60%,65%)" stroke-width="1.4" opacity=".55"/><circle cx="80" cy="80" r="30" fill="none" stroke="#d4af6a" stroke-width="1" opacity=".5"/></svg>`;
 }
 document.getElementById('catGrid').innerHTML = categories.map((c,i)=>`
-  <div class="cat-card reveal-stagger" data-cat="${c.name}">
+  <div class="cat-card reveal-stagger ${c.hasContent?'':'cat-card-disabled'}" data-cat="${c.name}" role="button" tabindex="${c.hasContent?'0':'-1'}"
+       aria-disabled="${!c.hasContent}" aria-label="${c.name}${c.hasContent?'':' — coming soon'}">
     <div class="art">${categoryArt(i)}</div>
     <div class="overlay"></div>
+    ${c.hasContent?'':'<div class="soon-badge">Coming Soon</div>'}
     <div class="label"><div class="name">${c.name}</div><div class="count">${c.count}</div></div>
   </div>`).join('');
 
@@ -320,7 +334,8 @@ document.getElementById('catGrid').innerHTML = categories.map((c,i)=>`
 const gridView = document.getElementById('categoriesGridView');
 const detailView = document.getElementById('categoryDetail');
 document.querySelectorAll('.cat-card').forEach(card=>{
-  card.addEventListener('click', ()=>{
+  if(card.classList.contains('cat-card-disabled')) return;
+  const activate = ()=>{
     const name = card.dataset.cat;
     document.getElementById('catHeroEyebrow').textContent = 'Category';
     document.getElementById('catHeroTitle').textContent = name;
@@ -329,7 +344,9 @@ document.querySelectorAll('.cat-card').forEach(card=>{
     detailView.classList.add('active');
     renderResults();
     window.scrollTo({top:0,behavior:'instant'});
-  });
+  };
+  card.addEventListener('click', activate);
+  card.addEventListener('keydown', e=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); activate(); } });
 });
 document.getElementById('backToCats').addEventListener('click', ()=>{
   detailView.classList.remove('active');
@@ -360,11 +377,11 @@ function renderResults(){
   document.getElementById('emptyState').style.display = filtered.length ? 'none':'block';
 
   document.getElementById('resultGrid').innerHTML = filtered.map(l=>`
-    <div class="bio-card reveal-stagger">
+    <a href="lifelegends-biography.html?slug=${l.slug}" class="bio-card reveal-stagger" style="display:block;">
       <img src="${l.img}" alt="${l.name}"/><div class="duotone"></div><div class="scrim"></div>
       <span class="chip">${l.chip}</span>
       <div class="info"><div class="name">${l.name}</div><div class="role">${l.role}</div></div>
-    </div>`).join('');
+    </a>`).join('');
 
   const chips = [...professions, ...countries].map(f=>`<span class="filter-chip">${f}</span>`).join('');
   document.getElementById('activeFilters').innerHTML = chips;
@@ -391,10 +408,13 @@ let recentSearches = [];
 
 function openSearch(){
   searchOverlay.classList.add('open');
+  document.getElementById('searchTrigger').setAttribute('aria-expanded','true');
   setTimeout(()=>searchField.focus(), 50);
 }
 function closeSearch(){
   searchOverlay.classList.remove('open');
+  document.getElementById('searchTrigger').setAttribute('aria-expanded','false');
+  document.getElementById('searchTrigger').focus();
   searchField.value='';
   searchResults.innerHTML='';
   searchDefaultState.style.display='block';
@@ -422,10 +442,10 @@ function runSearch(query){
       return;
     }
     searchResults.innerHTML = matches.map(l=>`
-      <div class="search-result-item">
+      <a href="lifelegends-biography.html?slug=${l.slug}" class="search-result-item" style="display:flex;">
         <img src="${l.img}" alt="${l.name}"/>
         <div><div class="sr-name">${l.name}</div><div class="sr-role">${l.role} · ${l.country}</div></div>
-      </div>`).join('');
+      </a>`).join('');
     if(!recentSearches.includes(query)){
       recentSearches.unshift(query);
       recentSearches = recentSearches.slice(0,4);

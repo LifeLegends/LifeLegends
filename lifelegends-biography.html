@@ -4,6 +4,11 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Nikola Tesla — The Man Who Lit Up the World | LifeLegends</title>
+<meta name="description" id="metaDescription" content="Discover the life of Nikola Tesla on LifeLegends.">
+<link rel="canonical" id="metaCanonical" href="https://lifelegends.example/legends/tesla">
+<meta property="og:title" id="metaOgTitle" content="Nikola Tesla | LifeLegends">
+<meta property="og:description" id="metaOgDesc" content="Discover the life of Nikola Tesla.">
+<meta property="og:type" content="profile">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -12,7 +17,7 @@
   --bg-glass:rgba(255,255,255,.04); --border-glass:rgba(255,255,255,.08); --border-glass-hi:rgba(255,255,255,.18);
   --accent-gold:#d4af6a; --accent-gold-soft:rgba(212,175,106,.15); --accent-gold-strong:rgba(212,175,106,.35);
   --accent-violet:#6e5bd6; --accent-violet-glow:rgba(110,91,214,.35); --accent-indigo-deep:#2a1f5e;
-  --text-primary:#f5f3ee; --text-secondary:#a6a4b5; --text-muted:#6b6980;
+  --text-primary:#f5f3ee; --text-secondary:#a6a4b5; --text-muted:#83819a;
   --font-display:'Fraunces',Georgia,serif; --font-body:'Inter',sans-serif;
   --ease:cubic-bezier(.16,1,.3,1); --radius-card:20px; --radius-pill:999px;
   --glow-gold:0 0 40px rgba(212,175,106,.28); --glass-blur:blur(20px);
@@ -187,9 +192,12 @@ footer{ padding:70px 48px 32px; border-top:1px solid var(--border-glass); text-a
 @media (max-width:900px){ footer{ padding:50px 24px 28px; } }
 
 .reveal{ opacity:0; }
+.skip-link{ position:absolute; left:-9999px; top:0; z-index:1000; background:var(--accent-gold); color:var(--bg-void); padding:12px 20px; border-radius:8px; font-size:.85rem; font-weight:600; }
+.skip-link:focus{ left:16px; top:16px; }
 </style>
 </head>
 <body>
+<a href="#main" class="skip-link">Skip to content</a>
 
 <div id="readProgress"></div>
 
@@ -210,30 +218,26 @@ footer{ padding:70px 48px 32px; border-top:1px solid var(--border-glass); text-a
 </header>
 
 <!-- Cinematic Hero -->
-<section class="bio-hero">
+<section class="bio-hero" id="main">
   <div class="bio-hero-bg">
-    <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Nikola%20Tesla%20by%20Sarony%20c1898.jpg?width=1400" alt="Nikola Tesla portrait"/>
+    <img id="heroImage" src="" alt=""/>
     <div class="duotone"></div>
     <div class="scrim"></div>
     <div class="rim"></div>
   </div>
   <div class="bio-hero-content">
-    <div class="role-tags reveal">
-      <span class="role-tag">Inventor</span><span class="role-tag">Engineer</span><span class="role-tag">Futurist</span>
-    </div>
-    <h1><span><b>Nikola Tesla</b></span></h1>
-    <div class="bio-meta-row">
-      <span>1856 – 1943</span><span class="dot"></span><span>Serbian-American</span><span class="dot"></span><span>Electrical Engineer</span>
-    </div>
-    <p class="bio-tagline">"The Man Who Lit Up the World."</p>
-    <p class="bio-intro">A visionary inventor and electrical engineer who revolutionized the modern world with alternating current, wireless energy, and futuristic ideas decades ahead of his time.</p>
+    <div class="role-tags reveal" id="roleTags"></div>
+    <h1><span><b id="heroName"></b></span></h1>
+    <div class="bio-meta-row" id="metaRow"></div>
+    <p class="bio-tagline" id="heroTagline"></p>
+    <p class="bio-intro" id="heroIntro"></p>
     <div class="bio-cta-row">
       <a href="#overview" class="btn-gold"><span>Read Full Story</span></a>
       <a href="#gallery" class="btn-outline">View Gallery</a>
     </div>
   </div>
   <div class="read-meta">
-    <div>7 min read</div>
+    <div id="readTime">7 min read</div>
     <div>60% complete</div>
   </div>
 </section>
@@ -246,19 +250,10 @@ footer{ padding:70px 48px 32px; border-top:1px solid var(--border-glass); text-a
   <!-- Overview -->
   <section class="bio-section" id="overview">
     <span class="eyebrow section-eyebrow">Overview</span>
-    <h2 class="section-title">A Mind Ahead of Its Century</h2>
+    <h2 class="section-title" id="overviewTitle">Overview</h2>
     <div class="overview-grid">
-      <div class="overview-text reveal">
-        <p>Born in 1856 in Smiljan, in the Austrian Empire, Nikola Tesla would go on to hold hundreds of patents across a dozen countries, laying the groundwork for the alternating-current systems that power the modern world.</p>
-        <p>After studying engineering in Graz and Prague, Tesla emigrated to the United States in 1884 with little more than a letter of introduction and a head full of ideas that would soon reshape how humanity generated, transmitted, and used electricity.</p>
-        <p>His rivalry with Thomas Edison over AC versus DC power, his radical wireless-energy experiments at Wardenclyffe, and his lifelong pursuit of ideas the world wasn't yet ready for have made him one of history's most enduring symbols of visionary genius.</p>
-      </div>
-      <div class="stat-strip reveal">
-        <div class="stat-item"><div class="num" data-count="700">0</div><div class="lbl">Patents</div></div>
-        <div class="stat-item"><div class="num" data-count="300">0</div><div class="lbl">Inventions</div></div>
-        <div class="stat-item"><div class="num" data-count="26">0</div><div class="lbl">Countries</div></div>
-        <div class="stat-item"><div class="num">∞</div><div class="lbl">Impact</div></div>
-      </div>
+      <div class="overview-text reveal" id="overviewText"></div>
+      <div class="stat-strip reveal" id="statStrip"></div>
     </div>
   </section>
 
@@ -275,18 +270,14 @@ footer{ padding:70px 48px 32px; border-top:1px solid var(--border-glass); text-a
   <section class="bio-section" id="achievements">
     <span class="eyebrow section-eyebrow">Legacy</span>
     <h2 class="section-title">Achievements</h2>
-    <div class="achieve-grid">
-      <div class="achieve-card reveal-stagger"><div class="counter" data-count="700">0</div><div class="title">Patents Filed</div><div class="desc">Across the US, Europe, and beyond, spanning motors, wireless transmission, and lighting.</div></div>
-      <div class="achieve-card reveal-stagger"><div class="counter">AC</div><div class="title">Polyphase System</div><div class="desc">His AC induction motor became the backbone of modern electrical power distribution.</div></div>
-      <div class="achieve-card reveal-stagger"><div class="counter" data-count="1943">0</div><div class="title">Enduring Legacy</div><div class="desc">Honored posthumously with the SI unit of magnetic flux density, the tesla (T).</div></div>
-    </div>
+    <div class="achieve-grid" id="achieveGrid"></div>
   </section>
 
   <!-- Quote -->
   <section class="bio-section quote-showcase">
     <svg width="32" height="24" viewBox="0 0 32 24" fill="none"><path d="M0 24V13.5C0 6 4.5 1 12 0L13 4C8 5 5.5 7.5 5 11H12V24H0ZM19 24V13.5C19 6 23.5 1 31 0L32 4C27 5 24.5 7.5 24 11H31V24H19Z" fill="#d4af6a"/></svg>
-    <blockquote id="quoteText">"The present is theirs; the future, for which I really worked, is mine."</blockquote>
-    <cite>— Nikola Tesla</cite>
+    <blockquote id="quoteText"></blockquote>
+    <cite id="quoteCite"></cite>
   </section>
 
   <!-- Gallery -->
@@ -300,12 +291,7 @@ footer{ padding:70px 48px 32px; border-top:1px solid var(--border-glass); text-a
   <section class="bio-section" id="facts">
     <span class="eyebrow section-eyebrow">Did You Know</span>
     <h2 class="section-title">Interesting Facts</h2>
-    <div class="facts-grid" id="factsGrid">
-      <div class="fact-item"><span class="num">01</span><div class="fact-body"><p class="summary">Tesla could allegedly speak eight languages fluently.</p><p class="expand">He was fluent in Serbian, English, Czech, German, French, Hungarian, Italian, and Latin, and claimed an eidetic (photographic) memory that let him visualize entire inventions in his mind before ever building a prototype.</p></div><svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg></div>
-      <div class="fact-item"><span class="num">02</span><div class="fact-body"><p class="summary">He envisioned global wireless communication decades early.</p><p class="expand">His Wardenclyffe Tower project aimed to transmit information — and eventually free electrical power — wirelessly across the globe, a concept that wouldn't be fully realized until Wi-Fi and cellular networks over a century later.</p></div><svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg></div>
-      <div class="fact-item"><span class="num">03</span><div class="fact-body"><p class="summary">Tesla never married, citing his work as his true devotion.</p><p class="expand">He often said celibacy helped him focus entirely on his inventions, and was known for forming close, admiring friendships instead — including a well-documented fondness for the pigeons he fed daily in New York parks.</p></div><svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg></div>
-      <div class="fact-item"><span class="num">04</span><div class="fact-body"><p class="summary">He died with 300+ patents but in financial hardship.</p><p class="expand">Despite his enormous scientific output, Tesla's later-life projects struggled to find funding, and he died in 1943 in a modest New York hotel room — his full recognition largely arriving decades after his death.</p></div><svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg></div>
-    </div>
+    <div class="facts-grid" id="factsGrid"></div>
   </section>
 
   <!-- Related legends -->
@@ -319,11 +305,7 @@ footer{ padding:70px 48px 32px; border-top:1px solid var(--border-glass); text-a
   <section class="bio-section" id="sources" style="border-bottom:none;">
     <span class="eyebrow section-eyebrow">References</span>
     <h2 class="section-title">Sources</h2>
-    <ul class="sources-list">
-      <li><span class="src-name">Smithsonian Institution</span><span>Archival biography</span></li>
-      <li><span class="src-name">IEEE History Center</span><span>Engineering legacy review</span></li>
-      <li><span class="src-name">Tesla Science Center at Wardenclyffe</span><span>Primary source materials</span></li>
-    </ul>
+    <ul class="sources-list" id="sourcesList"></ul>
   </section>
 
 </main>
@@ -344,16 +326,16 @@ footer{ padding:70px 48px 32px; border-top:1px solid var(--border-glass); text-a
 <!-- Prev / Next navigation -->
 <section class="container" style="padding:60px 48px 20px;">
   <div class="prev-next-row" id="prevNextRow">
-    <a href="lifelegends-categories.html" class="pn-card pn-prev">
+    <a href="#" class="pn-card pn-prev" id="prevLink">
       <span class="pn-label">‹ Previous Legend</span>
-      <span class="pn-name">Nelson Mandela</span>
+      <span class="pn-name" id="prevName"></span>
     </a>
     <a href="lifelegends-categories.html" class="pn-card pn-all">
       <span class="pn-label">All Legends</span>
     </a>
-    <a href="lifelegends-categories.html" class="pn-card pn-next">
+    <a href="#" class="pn-card pn-next" id="nextLink">
       <span class="pn-label">Next Legend ›</span>
-      <span class="pn-name">Albert Einstein</span>
+      <span class="pn-name" id="nextName"></span>
     </a>
   </div>
 </section>
@@ -361,7 +343,7 @@ footer{ padding:70px 48px 32px; border-top:1px solid var(--border-glass); text-a
 <footer>© 2026 LifeLegends. All rights reserved.</footer>
 
 <!-- Lightbox -->
-<div class="lightbox" id="lightbox">
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image gallery viewer">
   <button class="lb-close" id="lbClose">Close ✕</button>
   <button class="lb-nav lb-prev" id="lbPrev">‹</button>
   <img id="lbImage" src="" alt=""/>
@@ -375,66 +357,323 @@ footer{ padding:70px 48px 32px; border-top:1px solid var(--border-glass); text-a
 const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 gsap.registerPlugin(ScrollTrigger);
 
-/* ---------- Data ---------- */
-const timelineEvents = [
-  {year:1856, title:'Born in Smiljan', desc:'Nikola Tesla is born in the village of Smiljan, in the Austrian Empire (present-day Croatia).'},
-  {year:1875, title:'Studies at Graz University', desc:'Enrolls to study electrical engineering, where he first conceives the idea of a rotating magnetic field.'},
-  {year:1884, title:'Moves to the United States', desc:'Arrives in New York with a letter of introduction to Thomas Edison and four cents in his pocket.'},
-  {year:1891, title:'Patents the AC Induction Motor', desc:'His polyphase alternating-current system becomes the foundation of modern power distribution.'},
-  {year:1893, title:'Chicago World\'s Fair', desc:'Demonstrates AC power on a grand public stage, helping win the "War of Currents."'},
-  {year:1943, title:'Passes Away in New York', desc:'Dies alone in a New York hotel room, leaving behind a legacy that would only grow with time.'},
-];
-const galleryImages = [
-  'https://commons.wikimedia.org/wiki/Special:FilePath/Nikola%20Tesla%2C%20circa%201890.jpeg?width=700',
-  'https://commons.wikimedia.org/wiki/Special:FilePath/Tesla%20Wardenclyffe%201904.jpg?width=500',
-  'https://commons.wikimedia.org/wiki/Special:FilePath/Nikola%20Tesla%20by%20Sarony%20c1898.jpg?width=500',
-  'https://commons.wikimedia.org/wiki/Special:FilePath/N.Tesla.JPG?width=500',
-];
-const related = [
-  {name:'Albert Einstein', role:'Theoretical Physicist', img:'https://commons.wikimedia.org/wiki/Special:FilePath/Albert%20Einstein%20Head.jpg?width=400'},
-  {name:'Marie Curie', role:'Scientist', img:'https://commons.wikimedia.org/wiki/Special:FilePath/Marie%20Curie%201903.jpg?width=400'},
-  {name:'Leonardo da Vinci', role:'Artist & Inventor', img:'https://commons.wikimedia.org/wiki/Special:FilePath/Leonardo%20da%20Vinci%20-%20presumed%20self-portrait%20-%20WGA12798.jpg?width=400'},
-  {name:'Nelson Mandela', role:'Anti-Apartheid Leader', img:'https://commons.wikimedia.org/wiki/Special:FilePath/Nelson%20Mandela-2008%20(edit).jpg?width=400'},
-];
+/* =========================================================================
+   CONTENT DATASET — mirrors the Supabase `legends` table + related tables
+   from the approved SDD (§7.4): one object per legend, each field mapping
+   1:1 to a future database column. The admin CMS's biography editor
+   writes to this exact shape; the public page just reads it by slug.
+   ========================================================================= */
+const legendsData = {
+  tesla: {
+    name:'Nikola Tesla', slug:'tesla', roles:['Inventor','Engineer','Futurist'],
+    birth:1856, death:1943, nationality:'Serbian-American', profession:'Electrical Engineer',
+    tagline:'"The Man Who Lit Up the World."',
+    intro:'A visionary inventor and electrical engineer who revolutionized the modern world with alternating current, wireless energy, and futuristic ideas decades ahead of his time.',
+    heroImage:'https://commons.wikimedia.org/wiki/Special:FilePath/Nikola%20Tesla%20by%20Sarony%20c1898.jpg?width=1400',
+    thumb:'https://commons.wikimedia.org/wiki/Special:FilePath/Nikola%20Tesla%20by%20Sarony%20c1898.jpg?width=400',
+    category:'Inventors', readTime:'7 min read',
+    overviewTitle:'A Mind Ahead of Its Century',
+    overview:[
+      'Born in 1856 in Smiljan, in the Austrian Empire, Nikola Tesla would go on to hold hundreds of patents across a dozen countries, laying the groundwork for the alternating-current systems that power the modern world.',
+      'After studying engineering in Graz and Prague, Tesla emigrated to the United States in 1884 with little more than a letter of introduction and a head full of ideas that would soon reshape how humanity generated, transmitted, and used electricity.',
+      "His rivalry with Thomas Edison over AC versus DC power, his radical wireless-energy experiments at Wardenclyffe, and his lifelong pursuit of ideas the world wasn't yet ready for have made him one of history's most enduring symbols of visionary genius."
+    ],
+    stats:[{num:700,lbl:'Patents'},{num:300,lbl:'Inventions'},{num:26,lbl:'Countries'},{num:'∞',lbl:'Impact'}],
+    timeline:[
+      {year:1856, title:'Born in Smiljan', desc:'Nikola Tesla is born in the village of Smiljan, in the Austrian Empire (present-day Croatia).'},
+      {year:1875, title:'Studies at Graz University', desc:'Enrolls to study electrical engineering, where he first conceives the idea of a rotating magnetic field.'},
+      {year:1884, title:'Moves to the United States', desc:'Arrives in New York with a letter of introduction to Thomas Edison and four cents in his pocket.'},
+      {year:1891, title:'Patents the AC Induction Motor', desc:'His polyphase alternating-current system becomes the foundation of modern power distribution.'},
+      {year:1893, title:"Chicago World's Fair", desc:'Demonstrates AC power on a grand public stage, helping win the "War of Currents."'},
+      {year:1943, title:'Passes Away in New York', desc:'Dies alone in a New York hotel room, leaving behind a legacy that would only grow with time.'},
+    ],
+    achievements:[
+      {counter:700,title:'Patents Filed',desc:'Across the US, Europe, and beyond, spanning motors, wireless transmission, and lighting.'},
+      {counter:'AC',title:'Polyphase System',desc:'His AC induction motor became the backbone of modern electrical power distribution.'},
+      {counter:1943,title:'Enduring Legacy',desc:'Honored posthumously with the SI unit of magnetic flux density, the tesla (T).'},
+    ],
+    quote:'"The present is theirs; the future, for which I really worked, is mine."', quoteCite:'Nikola Tesla',
+    gallery:[
+      'https://commons.wikimedia.org/wiki/Special:FilePath/Nikola%20Tesla%2C%20circa%201890.jpeg?width=700',
+      'https://commons.wikimedia.org/wiki/Special:FilePath/Tesla%20Wardenclyffe%201904.jpg?width=500',
+      'https://commons.wikimedia.org/wiki/Special:FilePath/Nikola%20Tesla%20by%20Sarony%20c1898.jpg?width=500',
+      'https://commons.wikimedia.org/wiki/Special:FilePath/N.Tesla.JPG?width=500',
+    ],
+    facts:[
+      {summary:'Tesla could allegedly speak eight languages fluently.', expand:'He was fluent in Serbian, English, Czech, German, French, Hungarian, Italian, and Latin, and claimed an eidetic memory that let him visualize entire inventions in his mind before ever building a prototype.'},
+      {summary:'He envisioned global wireless communication decades early.', expand:"His Wardenclyffe Tower project aimed to transmit information — and eventually free electrical power — wirelessly across the globe, a concept not fully realized until Wi-Fi and cellular networks over a century later."},
+      {summary:'Tesla never married, citing his work as his true devotion.', expand:'He often said celibacy helped him focus entirely on his inventions, and was known for close friendships instead — including a well-documented fondness for the pigeons he fed daily in New York parks.'},
+      {summary:'He died with 300+ patents but in financial hardship.', expand:"Despite his enormous scientific output, Tesla's later-life projects struggled to find funding, and he died in 1943 in a modest New York hotel room — full recognition largely arrived decades after his death."},
+    ],
+    sources:[{name:'Smithsonian Institution', desc:'Archival biography'},{name:'IEEE History Center', desc:'Engineering legacy review'},{name:'Tesla Science Center at Wardenclyffe', desc:'Primary source materials'}],
+  },
 
-/* ---------- Render timeline ---------- */
+  einstein: {
+    name:'Albert Einstein', slug:'einstein', roles:['Physicist','Theorist','Nobel Laureate'],
+    birth:1879, death:1955, nationality:'German-American', profession:'Theoretical Physicist',
+    tagline:'"Imagination is more important than knowledge."',
+    intro:"A theoretical physicist whose theory of relativity reshaped humanity's understanding of space, time, and gravity, and whose name became a global synonym for genius.",
+    heroImage:'https://commons.wikimedia.org/wiki/Special:FilePath/Albert%20Einstein%20Head.jpg?width=1400',
+    thumb:'https://commons.wikimedia.org/wiki/Special:FilePath/Albert%20Einstein%20Head.jpg?width=400',
+    category:'Scientists', readTime:'8 min read',
+    overviewTitle:'The Architect of Relativity',
+    overview:[
+      'Born in Ulm, Germany in 1879, Albert Einstein showed early fascination with mathematics and physics, though his unconventional thinking often put him at odds with formal schooling.',
+      'While working as a patent clerk in Switzerland, Einstein published four papers in 1905 — his "miracle year" — that would transform physics, including the special theory of relativity and the equation E=mc².',
+      'His general theory of relativity, published in 1915, redefined gravity itself, and observational confirmation in 1919 made him an international celebrity almost overnight.'
+    ],
+    stats:[{num:300,lbl:'Papers Published'},{num:1921,lbl:'Nobel Prize'},{num:4,lbl:'Fields Advanced'},{num:'∞',lbl:'Impact'}],
+    timeline:[
+      {year:1879, title:'Born in Ulm, Germany', desc:'Albert Einstein is born into a middle-class Jewish family in the German Empire.'},
+      {year:1900, title:'Graduates ETH Zurich', desc:'Completes his teaching diploma in physics and mathematics.'},
+      {year:1905, title:'The Miracle Year', desc:'Publishes four groundbreaking papers, including special relativity, while working at the Swiss patent office.'},
+      {year:1915, title:'General Theory of Relativity', desc:'Presents a new understanding of gravity as the curvature of spacetime.'},
+      {year:1921, title:'Wins the Nobel Prize in Physics', desc:'Awarded for his explanation of the photoelectric effect.'},
+      {year:1955, title:'Passes Away in Princeton', desc:'Dies in Princeton, New Jersey, having become the most recognized scientist of the 20th century.'},
+    ],
+    achievements:[
+      {counter:1921,title:'Nobel Prize in Physics',desc:'Awarded for his explanation of the photoelectric effect, foundational to quantum theory.'},
+      {counter:'E=mc²',title:'Mass-Energy Equivalence',desc:'One of the most famous equations in the world, linking mass and energy.'},
+      {counter:1915,title:'General Relativity',desc:'Redefined gravity as the curvature of spacetime, confirmed observationally in 1919.'},
+    ],
+    quote:'"Imagination is more important than knowledge."', quoteCite:'Albert Einstein',
+    gallery:[
+      'https://commons.wikimedia.org/wiki/Special:FilePath/Albert%20Einstein%20Head.jpg?width=700',
+      'https://commons.wikimedia.org/wiki/Special:FilePath/Einstein_1921_by_F_Schmutzer_-_restoration.jpg?width=500',
+      'https://commons.wikimedia.org/wiki/Special:FilePath/Albert%20Einstein%20Head.jpg?width=500',
+    ],
+    facts:[
+      {summary:'Einstein was offered the presidency of Israel in 1952.', expand:'He respectfully declined, saying he lacked the natural aptitude and experience to deal with human problems the way he could deal with the laws of physics.'},
+      {summary:'He did not fail math as a student — that\'s a myth.', expand:'Einstein excelled at mathematics from a young age; the popular story of him failing school math is false and likely originated from a misunderstanding of European grading scales.'},
+      {summary:'His brain was preserved for scientific study after death.', expand:'Without his family\'s initial permission, a pathologist removed and preserved Einstein\'s brain, hoping future science might locate the source of his genius.'},
+    ],
+    sources:[{name:'Nobel Prize Organization', desc:'Official biography and prize record'},{name:'Princeton University Archives', desc:'Personal papers collection'},{name:'American Institute of Physics', desc:'Historical record'}],
+  },
+
+  curie: {
+    name:'Marie Curie', slug:'curie', roles:['Physicist','Chemist','Nobel Laureate'],
+    birth:1867, death:1934, nationality:'Polish-French', profession:'Physicist & Chemist',
+    tagline:'"Nothing in life is to be feared, it is only to be understood."',
+    intro:'A pioneering physicist and chemist whose research on radioactivity made her the first person to win Nobel Prizes in two different sciences.',
+    heroImage:'https://commons.wikimedia.org/wiki/Special:FilePath/Marie%20Curie%201903.jpg?width=1400',
+    thumb:'https://commons.wikimedia.org/wiki/Special:FilePath/Marie%20Curie%201903.jpg?width=400',
+    category:'Scientists', readTime:'6 min read',
+    overviewTitle:'Illuminating the Invisible',
+    overview:[
+      'Born Maria Skłodowska in Warsaw in 1867, Marie Curie moved to Paris to pursue studies denied to women in Russian-controlled Poland, enrolling at the Sorbonne.',
+      'Alongside her husband Pierre, she discovered the elements polonium and radium, coining the term "radioactivity" and laying the foundation for a new field of physics and chemistry.',
+      'Her work came at great personal cost — prolonged radiation exposure would eventually contribute to her death — but it revolutionized medicine, physics, and our understanding of the atom.'
+    ],
+    stats:[{num:2,lbl:'Nobel Prizes'},{num:2,lbl:'Elements Discovered'},{num:1,lbl:'First Woman Professor, Sorbonne'},{num:'∞',lbl:'Impact'}],
+    timeline:[
+      {year:1867, title:'Born in Warsaw, Poland', desc:'Born Maria Skłodowska under Russian occupation, where women were barred from higher education.'},
+      {year:1891, title:'Moves to Paris', desc:'Enrolls at the Sorbonne to study physics and mathematics.'},
+      {year:1898, title:'Discovers Polonium and Radium', desc:'With husband Pierre Curie, isolates two new radioactive elements.'},
+      {year:1903, title:'First Nobel Prize', desc:'Shares the Nobel Prize in Physics for research on radioactivity.'},
+      {year:1911, title:'Second Nobel Prize', desc:'Wins the Nobel Prize in Chemistry, becoming the first person to win in two sciences.'},
+      {year:1934, title:'Passes Away', desc:'Dies from aplastic anemia, likely caused by prolonged radiation exposure.'},
+    ],
+    achievements:[
+      {counter:2,title:'Nobel Prizes',desc:'The first person in history to win Nobel Prizes in two different scientific fields.'},
+      {counter:'Ra & Po',title:'Elements Discovered',desc:'Isolated radium and polonium, founding the study of radioactivity.'},
+      {counter:1,title:'First Woman Professor',desc:'Became the first female professor at the University of Paris.'},
+    ],
+    quote:'"Nothing in life is to be feared, it is only to be understood."', quoteCite:'Marie Curie',
+    gallery:[
+      'https://commons.wikimedia.org/wiki/Special:FilePath/Marie%20Curie%201903.jpg?width=700',
+      'https://commons.wikimedia.org/wiki/Special:FilePath/Marie%20Curie%201903.jpg?width=500',
+    ],
+    facts:[
+      {summary:'Her research notebooks are still radioactive today.', expand:'Curie\'s papers and belongings are so contaminated with radium-226 that they are kept in lead-lined boxes at the French National Library, and visitors must sign a waiver and wear protective gear to view them.'},
+      {summary:'She created mobile X-ray units during World War I.', expand:'Dubbed "petites Curies," these mobile radiography units helped treat wounded soldiers on the battlefield, and Curie personally trained women to operate them.'},
+      {summary:'She remains the only person with Nobels in two sciences.', expand:'No one else in history has won Nobel Prizes in two different scientific disciplines — physics and chemistry.'},
+    ],
+    sources:[{name:'Nobel Prize Organization', desc:'Official biography and prize record'},{name:'Curie Museum, Paris', desc:'Institut Curie archival collection'},{name:'French National Library', desc:'Personal papers and notebooks'}],
+  },
+
+  mandela: {
+    name:'Nelson Mandela', slug:'mandela', roles:['Leader','Activist','President'],
+    birth:1918, death:2013, nationality:'South African', profession:'Anti-Apartheid Leader & President',
+    tagline:'"It always seems impossible until it\'s done."',
+    intro:'A revolutionary leader and South Africa\'s first Black president, whose 27 years of imprisonment and lifelong fight against apartheid made him a global symbol of resilience and reconciliation.',
+    heroImage:'https://commons.wikimedia.org/wiki/Special:FilePath/Nelson%20Mandela-2008%20(edit).jpg?width=1400',
+    thumb:'https://commons.wikimedia.org/wiki/Special:FilePath/Nelson%20Mandela-2008%20(edit).jpg?width=400',
+    category:'Freedom Fighters', readTime:'7 min read',
+    overviewTitle:'From Prisoner to President',
+    overview:[
+      'Born in 1918 in Mvezo, South Africa, Nelson Mandela trained as a lawyer and became a leading figure in the African National Congress\'s resistance to apartheid.',
+      'In 1962 he was arrested and later sentenced to life imprisonment, spending 27 years in prison — most of it on Robben Island — while becoming an international symbol of the anti-apartheid struggle.',
+      'Released in 1990, Mandela negotiated the end of apartheid and became South Africa\'s first democratically elected president in 1994, prioritizing reconciliation over retribution.'
+    ],
+    stats:[{num:27,lbl:'Years Imprisoned'},{num:1994,lbl:'Elected President'},{num:1993,lbl:'Nobel Peace Prize'},{num:'∞',lbl:'Impact'}],
+    timeline:[
+      {year:1918, title:'Born in Mvezo, South Africa', desc:'Born into the Thembu royal family in the Eastern Cape.'},
+      {year:1944, title:'Joins the African National Congress', desc:'Becomes active in the movement against apartheid policies.'},
+      {year:1962, title:'Arrested and Imprisoned', desc:'Sentenced to life imprisonment for his role in resistance activities.'},
+      {year:1990, title:'Released from Prison', desc:'Walks free after 27 years, greeted by global celebration.'},
+      {year:1993, title:'Awarded the Nobel Peace Prize', desc:'Shares the prize with F.W. de Klerk for dismantling apartheid.'},
+      {year:1994, title:'Elected President of South Africa', desc:'Becomes the country\'s first democratically elected, Black president.'},
+    ],
+    achievements:[
+      {counter:1993,title:'Nobel Peace Prize',desc:'Awarded jointly for negotiating the peaceful end of apartheid.'},
+      {counter:1994,title:'First Black President',desc:'Elected in South Africa\'s first fully democratic election.'},
+      {counter:27,title:'Years of Imprisonment',desc:'Endured decades in prison without abandoning his cause.'},
+    ],
+    quote:'"It always seems impossible until it\'s done."', quoteCite:'Nelson Mandela',
+    gallery:[
+      'https://commons.wikimedia.org/wiki/Special:FilePath/Nelson%20Mandela-2008%20(edit).jpg?width=700',
+      'https://commons.wikimedia.org/wiki/Special:FilePath/Nelson%20Mandela-2008%20(edit).jpg?width=500',
+    ],
+    facts:[
+      {summary:'He studied law while in prison on Robben Island.', expand:'Mandela and fellow prisoners ran what became known as "Robben Island University," educating one another in politics, history, and law during their imprisonment.'},
+      {summary:'He chose reconciliation over revenge as president.', expand:'Mandela established the Truth and Reconciliation Commission, prioritizing national healing over punishing those responsible for apartheid-era abuses.'},
+      {summary:'His autobiography was partly written in secret.', expand:'"Long Walk to Freedom" was drafted in secret during his imprisonment, with pages smuggled out and hidden by fellow prisoners.'},
+    ],
+    sources:[{name:'Nelson Mandela Foundation', desc:'Official archives and biography'},{name:'Nobel Prize Organization', desc:'Peace Prize record'},{name:'South African History Archive', desc:'Historical record'}],
+  },
+
+  davinci: {
+    name:'Leonardo da Vinci', slug:'davinci', roles:['Artist','Inventor','Polymath'],
+    birth:1452, death:1519, nationality:'Italian', profession:'Artist & Inventor',
+    tagline:'"Simplicity is the ultimate sophistication."',
+    intro:'A Renaissance polymath whose paintings, anatomical studies, and visionary engineering sketches made him one of the most diversely talented individuals in history.',
+    heroImage:'https://commons.wikimedia.org/wiki/Special:FilePath/Leonardo%20da%20Vinci%20-%20presumed%20self-portrait%20-%20WGA12798.jpg?width=1400',
+    thumb:'https://commons.wikimedia.org/wiki/Special:FilePath/Leonardo%20da%20Vinci%20-%20presumed%20self-portrait%20-%20WGA12798.jpg?width=400',
+    category:'Artists', readTime:'6 min read',
+    overviewTitle:'The Original Renaissance Mind',
+    overview:[
+      'Born in 1452 in the Tuscan hill town of Vinci, Leonardo apprenticed under the painter Verrocchio in Florence, where his talent quickly outpaced his teacher\'s.',
+      'Beyond his iconic paintings, including the Mona Lisa and The Last Supper, Leonardo filled thousands of notebook pages with anatomical studies, engineering designs, and scientific observations centuries ahead of his time.',
+      'He worked across Florence, Milan, and Rome for patrons including the Medici and Sforza families, ultimately dying in France under the patronage of King Francis I.'
+    ],
+    stats:[{num:20,lbl:'Surviving Paintings'},{num:7000,lbl:'Notebook Pages'},{num:3,lbl:'Italian City-States'},{num:'∞',lbl:'Impact'}],
+    timeline:[
+      {year:1452, title:'Born in Vinci, Tuscany', desc:'Born out of wedlock to a notary and a peasant woman near Florence.'},
+      {year:1466, title:'Apprentices under Verrocchio', desc:'Joins the workshop of Andrea del Verrocchio in Florence.'},
+      {year:1482, title:'Moves to Milan', desc:'Enters the service of Ludovico Sforza as an engineer and artist.'},
+      {year:1495, title:'Paints The Last Supper', desc:'Completes one of the most reproduced religious paintings in history.'},
+      {year:1503, title:'Begins the Mona Lisa', desc:'Starts work on what would become the world\'s most famous portrait.'},
+      {year:1519, title:'Passes Away in France', desc:'Dies at Clos Lucé under the patronage of King Francis I.'},
+    ],
+    achievements:[
+      {counter:'Mona Lisa',title:'Most Famous Portrait',desc:'Arguably the most recognized painting in the world, housed at the Louvre.'},
+      {counter:7000,title:'Notebook Pages',desc:'Surviving pages of anatomical, engineering, and scientific studies.'},
+      {counter:'Polymath',title:'Renaissance Ideal',desc:'Mastery spanning painting, sculpture, anatomy, engineering, and architecture.'},
+    ],
+    quote:'"Simplicity is the ultimate sophistication."', quoteCite:'Leonardo da Vinci',
+    gallery:[
+      'https://commons.wikimedia.org/wiki/Special:FilePath/Leonardo%20da%20Vinci%20-%20presumed%20self-portrait%20-%20WGA12798.jpg?width=700',
+      'https://commons.wikimedia.org/wiki/Special:FilePath/Leonardo%20da%20Vinci%20-%20presumed%20self-portrait%20-%20WGA12798.jpg?width=500',
+    ],
+    facts:[
+      {summary:'He wrote his notes in mirror-image handwriting.', expand:'Leonardo, left-handed, wrote right-to-left in reverse script — a habit historians believe helped avoid smudging ink, though it also made his notebooks harder to read casually.'},
+      {summary:'He designed flying machines centuries early.', expand:'His notebooks contain detailed sketches of ornithopters, parachutes, and other flying contraptions, though none were built or flown in his lifetime.'},
+      {summary:'The Mona Lisa may never have been "finished."', expand:'Leonardo reportedly kept the painting with him for years, continuing to refine it until his death, rather than delivering it to the patron who commissioned it.'},
+    ],
+    sources:[{name:'Musée du Louvre', desc:'Painting conservation records'},{name:'Biblioteca Reale di Torino', desc:'Self-portrait provenance'},{name:'Royal Collection Trust', desc:'Notebook and manuscript archive'}],
+  },
+};
+
+/* ---------- Resolve which legend to render from the URL ---------- */
+const params = new URLSearchParams(window.location.search);
+const slug = params.get('slug') || 'tesla';
+const legend = legendsData[slug] || legendsData.tesla;
+const allSlugs = Object.keys(legendsData);
+
+/* ---------- Render: hero ---------- */
+document.title = `${legend.name} — ${legend.tagline.replace(/"/g,'')} | LifeLegends`;
+document.getElementById('metaDescription').setAttribute('content', legend.intro);
+document.getElementById('metaCanonical').setAttribute('href', `https://lifelegends.example/legends/${legend.slug}`);
+document.getElementById('metaOgTitle').setAttribute('content', `${legend.name} | LifeLegends`);
+document.getElementById('metaOgDesc').setAttribute('content', legend.intro);
+document.getElementById('heroImage').src = legend.heroImage;
+document.getElementById('heroImage').alt = `${legend.name} portrait`;
+document.getElementById('roleTags').innerHTML = legend.roles.map(r=>`<span class="role-tag">${r}</span>`).join('');
+document.getElementById('heroName').textContent = legend.name;
+document.getElementById('metaRow').innerHTML = `<span>${legend.birth} – ${legend.death}</span><span class="dot"></span><span>${legend.nationality}</span><span class="dot"></span><span>${legend.profession}</span>`;
+document.getElementById('heroTagline').textContent = legend.tagline;
+document.getElementById('heroIntro').textContent = legend.intro;
+document.getElementById('readTime').textContent = legend.readTime;
+
+/* ---------- Render: overview ---------- */
+document.getElementById('overviewTitle').textContent = legend.overviewTitle;
+document.getElementById('overviewText').innerHTML = legend.overview.map(p=>`<p>${p}</p>`).join('');
+document.getElementById('statStrip').innerHTML = legend.stats.map(s=>`
+  <div class="stat-item"><div class="num" ${typeof s.num==='number'?`data-count="${s.num}"`:''}>${typeof s.num==='number'?'0':s.num}</div><div class="lbl">${s.lbl}</div></div>`).join('');
+
+/* ---------- Render: timeline ---------- */
 const tlWrap = document.getElementById('verticalTimeline');
-timelineEvents.forEach(e=>{
+legend.timeline.forEach(e=>{
   const el = document.createElement('div');
   el.className = 'tl-event';
   el.innerHTML = `<div class="node"></div><div class="year">${e.year}</div><h4>${e.title}</h4><p>${e.desc}</p>`;
   tlWrap.appendChild(el);
 });
 
-/* ---------- Render gallery ---------- */
-document.getElementById('galleryGrid').innerHTML = galleryImages.map((src,i)=>`
-  <div class="g-item" data-idx="${i}"><img src="${src}" alt="Archival photo ${i+1}" loading="lazy"/><div class="duotone"></div>
+/* ---------- Render: achievements ---------- */
+document.getElementById('achieveGrid').innerHTML = legend.achievements.map(a=>`
+  <div class="achieve-card reveal-stagger"><div class="counter" ${typeof a.counter==='number'?`data-count="${a.counter}"`:''}>${typeof a.counter==='number'?'0':a.counter}</div><div class="title">${a.title}</div><div class="desc">${a.desc}</div></div>`).join('');
+
+/* ---------- Render: quote ---------- */
+document.getElementById('quoteText').textContent = legend.quote;
+document.getElementById('quoteCite').textContent = `— ${legend.quoteCite}`;
+
+/* ---------- Render: gallery ---------- */
+document.getElementById('galleryGrid').innerHTML = legend.gallery.map((src,i)=>`
+  <div class="g-item" data-idx="${i}"><img src="${src}" alt="${legend.name} archival photo ${i+1}" loading="lazy"/><div class="duotone"></div>
     <div class="zoom"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/></svg></div>
   </div>`).join('');
 
-/* ---------- Render related ---------- */
-document.getElementById('relatedGrid').innerHTML = related.map(r=>`
-  <a href="lifelegends-categories.html" class="related-card" style="display:block;"><img src="${r.img}" alt="${r.name}"/><div class="duotone"></div><div class="overlay"></div>
-    <div class="info"><div class="name">${r.name}</div><div class="role">${r.role}</div></div></a>`).join('');
+/* ---------- Render: facts (expandable) ---------- */
+document.getElementById('factsGrid').innerHTML = legend.facts.map((f,i)=>`
+  <div class="fact-item"><span class="num">0${i+1}</span><div class="fact-body"><p class="summary">${f.summary}</p><p class="expand">${f.expand}</p></div>
+    <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 9l6 6 6-6"/></svg></div>`).join('');
+
+/* ---------- Render: sources ---------- */
+document.getElementById('sourcesList').innerHTML = legend.sources.map(s=>`<li><span class="src-name">${s.name}</span><span>${s.desc}</span></li>`).join('');
+
+/* ---------- Render: related (same category, excluding current) ---------- */
+const relatedList = allSlugs.filter(s=> s!==slug && legendsData[s].category===legend.category);
+const fallbackList = allSlugs.filter(s=> s!==slug && !relatedList.includes(s));
+const relatedSlugs = [...relatedList, ...fallbackList].slice(0,4);
+document.getElementById('relatedGrid').innerHTML = relatedSlugs.map(s=>{
+  const r = legendsData[s];
+  return `<a href="lifelegends-biography.html?slug=${s}" class="related-card" style="display:block;"><img src="${r.thumb}" alt="${r.name}" loading="lazy"/><div class="duotone"></div><div class="overlay"></div>
+    <div class="info"><div class="name">${r.name}</div><div class="role">${r.profession}</div></div></a>`;
+}).join('');
+
+/* ---------- Render: prev / next ---------- */
+const currentIndexInAll = allSlugs.indexOf(slug);
+const prevSlug = allSlugs[(currentIndexInAll - 1 + allSlugs.length) % allSlugs.length];
+const nextSlug = allSlugs[(currentIndexInAll + 1) % allSlugs.length];
+document.getElementById('prevLink').href = `lifelegends-biography.html?slug=${prevSlug}`;
+document.getElementById('prevName').textContent = legendsData[prevSlug].name;
+document.getElementById('nextLink').href = `lifelegends-biography.html?slug=${nextSlug}`;
+document.getElementById('nextName').textContent = legendsData[nextSlug].name;
+
 
 /* ---------- Lightbox ---------- */
 const lightbox = document.getElementById('lightbox');
 const lbImage = document.getElementById('lbImage');
 let currentIdx = 0;
-function openLightbox(i){ currentIdx = i; lbImage.src = galleryImages[i]; lightbox.classList.add('open'); }
+let lastFocusedEl = null;
+function openLightbox(i){ currentIdx = i; lbImage.src = legend.gallery[i]; lastFocusedEl = document.activeElement; lightbox.classList.add('open'); document.getElementById('lbClose').focus(); }
 document.querySelectorAll('.g-item').forEach(el=> el.addEventListener('click', ()=> openLightbox(+el.dataset.idx)));
-document.getElementById('lbClose').addEventListener('click', ()=> lightbox.classList.remove('open'));
-document.getElementById('lbPrev').addEventListener('click', ()=>{ currentIdx=(currentIdx-1+galleryImages.length)%galleryImages.length; lbImage.src=galleryImages[currentIdx]; });
-document.getElementById('lbNext').addEventListener('click', ()=>{ currentIdx=(currentIdx+1)%galleryImages.length; lbImage.src=galleryImages[currentIdx]; });
+document.getElementById('lbClose').addEventListener('click', ()=>{ lightbox.classList.remove('open'); lastFocusedEl?.focus(); });
+document.getElementById('lbPrev').addEventListener('click', ()=>{ currentIdx=(currentIdx-1+legend.gallery.length)%legend.gallery.length; lbImage.src=legend.gallery[currentIdx]; });
+document.getElementById('lbNext').addEventListener('click', ()=>{ currentIdx=(currentIdx+1)%legend.gallery.length; lbImage.src=legend.gallery[currentIdx]; });
 window.addEventListener('keydown', e=>{ if(e.key==='Escape') lightbox.classList.remove('open'); });
 
 /* ---------- Facts accordion ---------- */
 document.querySelectorAll('.fact-item').forEach(item=>{
-  item.addEventListener('click', ()=>{
+  item.setAttribute('role','button'); item.setAttribute('tabindex','0'); item.setAttribute('aria-expanded','false');
+  const toggle = ()=>{
     const wasOpen = item.classList.contains('open');
-    document.querySelectorAll('.fact-item').forEach(i=>i.classList.remove('open'));
-    if(!wasOpen) item.classList.add('open');
-  });
+    document.querySelectorAll('.fact-item').forEach(i=>{ i.classList.remove('open'); i.setAttribute('aria-expanded','false'); });
+    if(!wasOpen){ item.classList.add('open'); item.setAttribute('aria-expanded','true'); }
+  };
+  item.addEventListener('click', toggle);
+  item.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(); } });
 });
 
 /* ---------- Bookmark / share (mocked interactions) ---------- */

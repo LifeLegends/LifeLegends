@@ -4,6 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>LifeLegends — The Stories That Shape Humanity</title>
+<meta name="description" content="Discover the extraordinary lives of history's greatest scientists, inventors, leaders, and artists. LifeLegends is a digital museum of biographies, timelines, and archival imagery.">
+<link rel="canonical" href="https://lifelegends.example/">
+<meta property="og:title" content="LifeLegends — The Stories That Shape Humanity">
+<meta property="og:description" content="Discover the extraordinary lives of history's greatest scientists, inventors, leaders, and artists.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lifelegends.example/">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -13,7 +20,7 @@
   --accent-gold:#d4af6a; --accent-gold-soft:rgba(212,175,106,.15);
   --accent-violet:#6e5bd6; --accent-violet-glow:rgba(110,91,214,.35);
   --accent-indigo-deep:#2a1f5e;
-  --text-primary:#f5f3ee; --text-secondary:#a6a4b5; --text-muted:#6b6980;
+  --text-primary:#f5f3ee; --text-secondary:#a6a4b5; --text-muted:#83819a;
   --font-display:'Fraunces',Georgia,serif; --font-body:'Inter',sans-serif;
   --ease:cubic-bezier(.16,1,.3,1);
 }
@@ -324,9 +331,12 @@ footer{ padding:80px 48px 32px; border-top:1px solid var(--border-glass); }
 
 /* ---------- Reveal utility ---------- */
 .reveal{ opacity:0; }
+.skip-link{ position:absolute; left:-9999px; top:0; z-index:1000; background:var(--accent-gold); color:var(--bg-void); padding:12px 20px; border-radius:8px; font-size:.85rem; font-weight:600; }
+.skip-link:focus{ left:16px; top:16px; }
 </style>
 </head>
 <body>
+<a href="#main" class="skip-link">Skip to content</a>
 
 <div class="noise"></div>
 <div id="cursor"></div>
@@ -369,7 +379,7 @@ footer{ padding:80px 48px 32px; border-top:1px solid var(--border-glass); }
 </div>
 
 <!-- Hero -->
-<section class="hero" style="padding-top:0;">
+<section class="hero" id="main" style="padding-top:0;">
   <div class="hero-glow"></div>
   <div class="hero-inner">
     <span class="eyebrow reveal">The Stories That Shape Humanity</span>
@@ -519,21 +529,21 @@ const categories = [
   {name:'Artists', count:'118 Biographies'},
 ];
 const legends = [
-  {name:'Albert Einstein', role:'Theoretical Physicist', chip:'Physics',
+  {name:'Albert Einstein', slug:'einstein', role:'Theoretical Physicist', chip:'Physics',
    img:'https://commons.wikimedia.org/wiki/Special:FilePath/Albert%20Einstein%20Head.jpg?width=600'},
-  {name:'Marie Curie', role:'Scientist', chip:'Science',
+  {name:'Marie Curie', slug:'curie', role:'Scientist', chip:'Science',
    img:'https://commons.wikimedia.org/wiki/Special:FilePath/Marie%20Curie%201903.jpg?width=600'},
-  {name:'Nelson Mandela', role:'Anti-Apartheid Leader', chip:'Leader',
+  {name:'Nelson Mandela', slug:'mandela', role:'Anti-Apartheid Leader', chip:'Leader',
    img:'https://commons.wikimedia.org/wiki/Special:FilePath/Nelson%20Mandela-2008%20(edit).jpg?width=600'},
-  {name:'Nikola Tesla', role:'Inventor & Engineer', chip:'Innovator',
+  {name:'Nikola Tesla', slug:'tesla', role:'Inventor & Engineer', chip:'Innovator',
    img:'https://commons.wikimedia.org/wiki/Special:FilePath/Nikola%20Tesla%20by%20Sarony%20c1898.jpg?width=600'},
 ];
 const trending = [
-  {name:'Nikola Tesla', views:'25.6K views', img:'https://commons.wikimedia.org/wiki/Special:FilePath/Nikola%20Tesla%20by%20Sarony%20c1898.jpg?width=400'},
-  {name:'Marie Curie', views:'19.2K views', img:'https://commons.wikimedia.org/wiki/Special:FilePath/Marie%20Curie%201903.jpg?width=400'},
-  {name:'Albert Einstein', views:'17.8K views', img:'https://commons.wikimedia.org/wiki/Special:FilePath/Albert%20Einstein%20Head.jpg?width=400'},
-  {name:'Leonardo da Vinci', views:'14.4K views', img:'https://commons.wikimedia.org/wiki/Special:FilePath/Leonardo%20da%20Vinci%20-%20presumed%20self-portrait%20-%20WGA12798.jpg?width=400'},
-  {name:'Nelson Mandela', views:'12.1K views', img:'https://commons.wikimedia.org/wiki/Special:FilePath/Nelson%20Mandela-2008%20(edit).jpg?width=400'},
+  {name:'Nikola Tesla', slug:'tesla', views:'25.6K views', img:'https://commons.wikimedia.org/wiki/Special:FilePath/Nikola%20Tesla%20by%20Sarony%20c1898.jpg?width=400'},
+  {name:'Marie Curie', slug:'curie', views:'19.2K views', img:'https://commons.wikimedia.org/wiki/Special:FilePath/Marie%20Curie%201903.jpg?width=400'},
+  {name:'Albert Einstein', slug:'einstein', views:'17.8K views', img:'https://commons.wikimedia.org/wiki/Special:FilePath/Albert%20Einstein%20Head.jpg?width=400'},
+  {name:'Leonardo da Vinci', slug:'davinci', views:'14.4K views', img:'https://commons.wikimedia.org/wiki/Special:FilePath/Leonardo%20da%20Vinci%20-%20presumed%20self-portrait%20-%20WGA12798.jpg?width=400'},
+  {name:'Nelson Mandela', slug:'mandela', views:'12.1K views', img:'https://commons.wikimedia.org/wiki/Special:FilePath/Nelson%20Mandela-2008%20(edit).jpg?width=400'},
 ];
 const timelineEvents = [
   {year:1856, label:'Born in Smiljan'}, {year:1875, label:'Graz University'},
@@ -561,7 +571,7 @@ document.getElementById('categoryGrid').innerHTML = categories.map((c,i)=>`
   </a>`).join('');
 
 document.getElementById('legendRow').innerHTML = legends.map((l,i)=>`
-  <a href="lifelegends-biography.html" class="legend-card reveal-stagger" style="display:block;">
+  <a href="lifelegends-biography.html?slug=${l.slug}" class="legend-card reveal-stagger" style="display:block;">
     <div class="chip">${l.chip}</div>
     <div class="portrait"><img src="${l.img}" alt="${l.name}, ${l.role}" loading="lazy"/></div>
     <div class="duotone"></div>
@@ -571,13 +581,13 @@ document.getElementById('legendRow').innerHTML = legends.map((l,i)=>`
   </a>`).join('');
 
 document.getElementById('trendingRow').innerHTML = trending.map((t,i)=>`
-  <div class="trend-card reveal-stagger">
+  <a href="lifelegends-biography.html?slug=${t.slug}" class="trend-card reveal-stagger" style="display:block;">
     <img src="${t.img}" alt="${t.name}" loading="lazy"/>
     <div class="duotone"></div>
     <div class="overlay"></div>
     <div class="rank">0${i+1}</div>
     <div class="info"><div class="name">${t.name}</div><div class="views">${t.views}</div></div>
-  </div>`).join('');
+  </a>`).join('');
 
 const track = document.getElementById('timelineTrack');
 timelineEvents.forEach((e,i)=>{
@@ -631,9 +641,11 @@ window.addEventListener('scroll', ()=>{
 
 /* ---------- Mobile menu ---------- */
 const mobileMenu = document.getElementById('mobileMenu');
-document.getElementById('mobileToggle').addEventListener('click', ()=> mobileMenu.classList.add('open'));
-document.getElementById('mobileClose').addEventListener('click', ()=> mobileMenu.classList.remove('open'));
-mobileMenu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=> mobileMenu.classList.remove('open')));
+const mobileToggleBtn = document.getElementById('mobileToggle');
+mobileToggleBtn.setAttribute('aria-expanded','false');
+mobileToggleBtn.addEventListener('click', ()=>{ mobileMenu.classList.add('open'); mobileToggleBtn.setAttribute('aria-expanded','true'); document.getElementById('mobileClose').focus(); });
+document.getElementById('mobileClose').addEventListener('click', ()=>{ mobileMenu.classList.remove('open'); mobileToggleBtn.setAttribute('aria-expanded','false'); mobileToggleBtn.focus(); });
+mobileMenu.querySelectorAll('a').forEach(a=> a.addEventListener('click', ()=>{ mobileMenu.classList.remove('open'); mobileToggleBtn.setAttribute('aria-expanded','false'); }));
 
 /* ---------- Custom cursor ---------- */
 const cursor = document.getElementById('cursor');
