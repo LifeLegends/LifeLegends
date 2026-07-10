@@ -1,0 +1,238 @@
+.miniHeader {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-header);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 12px 12px 12px 22px;
+  width: min(1000px, calc(100% - 48px));
+  background: rgba(13, 13, 22, 0.6);
+  border: 1px solid var(--border-glass);
+  border-radius: var(--radius-pill);
+  backdrop-filter: var(--glass-blur);
+}
+
+.backLink {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.backLink:hover {
+  color: var(--accent-gold);
+}
+
+.headerActions {
+  display: flex;
+  gap: 10px;
+}
+
+.container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 48px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 60px;
+  align-items: start;
+}
+
+.section {
+  padding: 100px 0;
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.25rem);
+  margin-bottom: 36px;
+  color: var(--text-primary);
+}
+
+.overviewGrid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr;
+  gap: 48px;
+}
+
+.overviewText p {
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+  max-width: 64ch;
+}
+
+.achieveGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.achieveCard {
+  padding: 32px 28px;
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border-glass);
+  background: var(--bg-elevated);
+  transition: all 0.4s var(--ease-out-expo);
+}
+
+.achieveCard:hover {
+  border-color: var(--accent-gold);
+  box-shadow: var(--glow-gold);
+  transform: translateY(-6px);
+}
+
+.achieveCounter {
+  font-family: var(--font-display);
+  font-size: 2.4rem;
+  color: var(--accent-gold);
+}
+
+.achieveTitle {
+  font-weight: 600;
+  margin-top: 10px;
+  color: var(--text-primary);
+}
+
+.achieveDesc {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-top: 8px;
+}
+
+.prevNextRow {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.pnCard {
+  padding: 24px 26px;
+  border-radius: 16px;
+  border: 1px solid var(--border-glass);
+  background: var(--bg-elevated);
+  transition: all 0.3s var(--ease-out-expo);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pnCard:hover {
+  border-color: var(--accent-gold);
+  background: var(--accent-gold-soft);
+}
+
+.pnNext {
+  text-align: right;
+}
+
+.pnAll {
+  text-align: center;
+  justify-content: center;
+  min-width: 140px;
+}
+
+.pnLabel {
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.pnName {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  margin-top: 6px;
+  color: var(--text-primary);
+}
+
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .container {
+    padding: 0 24px;
+  }
+  .section {
+    padding: 64px 0;
+  }
+  .overviewGrid {
+    grid-template-columns: 1fr;
+  }
+  .achieveGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .prevNextRow {
+    grid-template-columns: 1fr;
+  }
+  .pnNext {
+    text-align: left;
+  }
+}
+
+.fullBiographyContent {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.8;
+  max-width: 72ch;
+}
+
+.fullBiographyContent h2,
+.fullBiographyContent h3 {
+  font-family: var(--font-display);
+  color: var(--text-primary);
+  margin: 32px 0 14px;
+}
+
+.fullBiographyContent p {
+  margin-bottom: 18px;
+}
+
+.fullBiographyContent blockquote {
+  border-left: 2px solid var(--accent-gold);
+  padding-left: 20px;
+  font-style: italic;
+  color: var(--text-primary);
+  margin: 24px 0;
+}
+
+.fullBiographyContent ul {
+  padding-left: 22px;
+  margin-bottom: 18px;
+}
+
+.fullBiographyContent li {
+  margin-bottom: 8px;
+}
+
+.fullBiographyContent img {
+  border-radius: 14px;
+  margin: 24px 0;
+  max-width: 100%;
+}

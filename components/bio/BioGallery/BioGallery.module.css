@@ -1,0 +1,130 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-muted);
+  border: 1px dashed var(--border-glass-hi);
+  border-radius: 16px;
+}
+
+.empty svg {
+  margin: 0 auto 16px;
+  opacity: 0.5;
+}
+
+.caption {
+  position: absolute;
+  bottom: -32px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.item {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+  aspect-ratio: 1;
+  border: 1px solid var(--border-glass);
+  display: block;
+  padding: 0;
+}
+
+.item img {
+  filter: grayscale(1) contrast(1.2) brightness(0.75);
+  transition: transform 0.5s var(--ease-out-expo), filter 0.5s;
+}
+
+.item:hover img {
+  transform: scale(1.06);
+  filter: grayscale(0.5) contrast(1.2) brightness(0.85);
+}
+
+.duotone {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(160deg, rgba(110, 91, 214, 0.45), rgba(212, 175, 106, 0.18));
+  mix-blend-mode: color;
+}
+
+.zoom {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(5, 5, 10, 0.6);
+  border: 1px solid var(--border-glass-hi);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.item:hover .zoom,
+.item:focus-visible .zoom {
+  opacity: 1;
+}
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 5, 10, 0.96);
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lbImageWrap {
+  position: relative;
+  width: 82vw;
+  height: 82vh;
+}
+
+.lbClose {
+  position: absolute;
+  top: 32px;
+  right: 40px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.lbNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-glass-hi);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+}
+
+.lbPrev {
+  left: 32px;
+}
+
+.lbNext {
+  right: 32px;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

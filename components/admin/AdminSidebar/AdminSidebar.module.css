@@ -1,0 +1,73 @@
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--bg-elevated);
+  border-right: 1px solid var(--border-glass);
+  padding: 26px 16px;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  padding: 0 10px;
+  margin-bottom: 32px;
+  color: var(--text-primary);
+}
+
+.glyph {
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.link {
+  display: block;
+  padding: 11px 14px;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 2px;
+}
+
+.link:hover {
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-primary);
+}
+
+.active {
+  background: var(--accent-gold-soft);
+  color: var(--accent-gold);
+}
+
+.footer {
+  margin-top: auto;
+  padding: 14px 10px;
+  border-top: 1px solid var(--border-glass);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.who {
+  font-size: 0.78rem;
+  color: var(--text-primary);
+}
+
+.role {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+}
+
+.logoutBtn {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+}
+
+.logoutBtn:hover {
+  color: var(--state-error);
+}

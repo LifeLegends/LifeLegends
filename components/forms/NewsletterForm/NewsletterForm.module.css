@@ -1,0 +1,100 @@
+.panel {
+  border-radius: var(--radius-card);
+  border: 1px solid var(--border-glass);
+  background: var(--bg-glass);
+  backdrop-filter: var(--glass-blur);
+  padding: 64px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.panel h3 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  max-width: 360px;
+}
+
+.form {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+  max-width: 440px;
+}
+
+.form input {
+  flex: 1;
+  padding: 15px 20px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-glass);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.form input:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.btn {
+  position: relative;
+  padding: 15px 26px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--accent-gold);
+  font-size: 0.82rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  overflow: hidden;
+  color: var(--text-primary);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--accent-gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.45s var(--ease-out-expo);
+  z-index: 0;
+}
+
+.btn:not(:disabled):hover::before {
+  transform: scaleX(1);
+}
+
+.btn span {
+  position: relative;
+  z-index: 1;
+  transition: color 0.45s var(--ease-out-expo);
+}
+
+.btn:not(:disabled):hover span {
+  color: var(--bg-void);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.error {
+  width: 100%;
+  color: var(--state-error);
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+@media (max-width: 900px) {
+  .panel {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 40px 26px;
+  }
+  .form {
+    max-width: 100%;
+  }
+}
