@@ -1,55 +1,52 @@
-# LifeLegends — Static Preview Site
+# LifeLegends
 
-This bundle is the CLIENT-DEMO version: real HTML/CSS/JS, real GSAP/Lenis
-animation, no build step — but no live database. It's meant to be shared
-for design/UX approval, not to run as the real production CMS.
+A premium biography platform — Next.js App Router + TypeScript + Supabase.
 
-## Deploy this demo live in 2 minutes (any of these work):
+## Push this to GitHub
 
-### Option A — Netlify (drag & drop, easiest)
-1. Go to https://app.netlify.com/drop
-2. Drag this whole folder onto the page.
-3. Done — you get a live URL immediately (e.g. yoursite.netlify.app).
+```bash
+# 1. Unzip this project, then from inside the folder:
+git init
+git add .
+git commit -m "Initial commit — LifeLegends"
 
-### Option B — Vercel
-1. Go to https://vercel.com/new
-2. Choose "Deploy without Git" / upload this folder.
-3. Done.
+# 2. Create a new empty repo on GitHub (github.com/new — do NOT initialize
+#    it with a README, so there's no merge conflict), then:
+git remote add origin https://github.com/<your-username>/<your-repo>.git
+git branch -M main
+git push -u origin main
+```
 
-### Option C — GitHub Pages
-1. Create a new GitHub repo, upload these files to it.
-2. Repo Settings → Pages → Deploy from branch → main → / (root).
-3. Your site is live at yourname.github.io/reponame.
+## Run it locally
 
-## Pages in this bundle
-- index.html                    → Homepage
-- lifelegends-biography.html    → Nikola Tesla biography page
-- lifelegends-categories.html   → Categories + Search + Filtering
-- admin.html                    → Admin CMS (mocked login — any email/password works)
+```bash
+npm install
+cp .env.example .env.local   # fill in your real Supabase values
+npm run dev
+```
 
-## IMPORTANT — what this bundle is and isn't
-This IS: the full approved design, real animation, real interactivity,
-safe to show clients or the public as a preview.
+## Before it actually works, you need to:
 
-This IS NOT: connected to a real database. The admin login is not secure,
-"Save & Publish" doesn't persist anywhere, and only one biography (Tesla)
-has full content — everything else is mock data. Do not treat this as
-your real production website; treat it as the approved visual/UX spec.
+1. **Create a Supabase project** at supabase.com (free tier is fine).
+2. **Run the migrations in order**, via the Supabase SQL Editor or `supabase db push`:
+   - `supabase/migrations/0001_init.sql`
+   - `supabase/migrations/0002_rls.sql`
+   - `supabase/migrations/0003_storage_policies.sql`
+   - `supabase/migrations/0004_image_metadata.sql`
+   - `supabase/migrations/0005_categories_tags.sql`
+   - `supabase/seed.sql` (optional — seeds 10 example biographies)
+3. **Set environment variables** in `.env.local` (and in your host's dashboard for production — e.g. Vercel):
+   - `NEXT_PUBLIC_SUPABASE_URL`
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - `NEXT_PUBLIC_SITE_URL`
+4. **Create your first admin account**: sign up once through Supabase Auth (dashboard → Authentication → Add User, or build a one-time signup form), then in the SQL Editor run:
+   ```sql
+   update users set role = 'admin' where id = '<the new user's UUID>';
+   ```
+5. Deploy (e.g. `vercel deploy`), setting the same env vars there.
 
-## To make this a REAL production website
-The real backend groundwork already exists from Phase 1 (Next.js +
-Supabase scaffold, delivered earlier as lifelegends-phase1.zip). Turning
-this demo into production means:
-1. Create a real Supabase project (free tier is fine) — get a URL + anon key.
-2. Wire supabase.auth.signInWithPassword into admin.html's login (or,
-   properly, migrate this HTML into the Next.js Phase 1 project's
-   component structure).
-3. Create the `legends`, `categories`, `timeline_events` etc. tables per
-   the approved SDD §7.4 schema, with Row Level Security policies.
-4. Replace the mock `db` object in admin.html with real Supabase queries.
-5. Deploy the Next.js app (not this static bundle) to Vercel, with the
-   Supabase URL/keys as environment variables.
+## What's real vs. what's still needed
 
-I can do all of #1–5 with you directly if you'd like — I'd need you to
-create the free Supabase project (I can walk you through it) since I
-can't provision cloud accounts on your behalf.
+**Fully implemented:** homepage, biography pages, categories, search (with keyboard shortcut), real Supabase auth (login/logout/password reset), admin dashboard, biography CRUD with real image upload (drag-drop, progress, Supabase Storage — no manual URLs), category CRUD with dependency-aware deletion, media library.
+
+**Not implemented** (flagged honestly, not faked): tag management UI, autosave, revision history, bulk actions on the biography list, in-browser image crop/rotate, the full "Website Settings" branding dashboard (multiple logo variants, favicon manager, homepage CMS fields, social links, etc.).
