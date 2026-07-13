@@ -1,0 +1,15 @@
+.wrap { max-width: 760px; }
+.panel { border: 1px solid var(--border-glass); border-radius: 16px; background: var(--bg-elevated); padding: 28px; margin-bottom: 24px; }
+.sectionTitle { font-family: var(--font-display); font-size: 1rem; margin: 24px 0 16px; color: var(--text-primary); }
+.fieldRow { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.field { margin-bottom: 18px; }
+.field label { display: block; font-size: .7rem; letter-spacing: .05em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 7px; }
+.field input, .field select, .field textarea { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--border-glass); background: rgba(255,255,255,.03); font-size: .85rem; color: var(--text-primary); }
+.field textarea { min-height: 80px; resize: vertical; }
+.checkboxLabel { display: flex; align-items: center; gap: 10px; font-size: .85rem; color: var(--text-primary); text-transform: none; letter-spacing: 0; margin-top: 14px; }
+.error { color: var(--state-error); font-size: .85rem; margin-bottom: 16px; }
+.footer { display: flex; gap: 12px; justify-content: flex-end; }
+.btnOutline { padding: 12px 24px; border-radius: 999px; border: 1px solid var(--border-glass-hi); color: var(--text-secondary); font-size: .8rem; text-transform: uppercase; }
+.btnGold { padding: 12px 28px; border-radius: 999px; background: var(--accent-gold); color: var(--bg-void); font-size: .8rem; text-transform: uppercase; }
+.btnGold:disabled { opacity: .5; cursor: not-allowed; }
+@media (max-width: 700px) { .fieldRow { grid-template-columns: 1fr; } }

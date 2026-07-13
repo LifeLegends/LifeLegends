@@ -1,0 +1,104 @@
+.screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-void);
+}
+
+.glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 50% 40% at 50% 30%, var(--accent-violet-glow), transparent 65%);
+  filter: blur(30px);
+}
+
+.card {
+  position: relative;
+  z-index: 2;
+  width: min(380px, 90vw);
+  padding: 44px 36px;
+  border-radius: 20px;
+  border: 1px solid var(--border-glass);
+  background: var(--bg-elevated);
+}
+
+.logo {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.sub {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  margin-bottom: 28px;
+  margin-top: 6px;
+}
+
+.field {
+  margin-bottom: 18px;
+}
+
+.field label {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 7px;
+}
+
+.field input {
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 10px;
+  border: 1px solid var(--border-glass);
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 0.9rem;
+  color: var(--text-primary);
+}
+
+.field input:focus {
+  border-color: var(--accent-gold);
+  outline: none;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-gold);
+  color: var(--bg-void);
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+
+.btn:hover {
+  box-shadow: 0 0 30px rgba(212, 175, 106, 0.4);
+}
+
+.error {
+  font-size: 0.78rem;
+  color: var(--state-error);
+  margin-top: 16px;
+  text-align: center;
+}
+
+.forgot {
+  display: block;
+  text-align: center;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 20px;
+}
+
+.forgot:hover {
+  color: var(--accent-gold);
+}

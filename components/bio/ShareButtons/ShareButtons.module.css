@@ -1,0 +1,34 @@
+.btn {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--border-glass);
+  color: var(--text-primary);
+  transition: all 0.3s;
+}
+
+.btn:hover {
+  border-color: var(--accent-gold);
+}
+
+.btn svg {
+  width: 15px;
+  height: 15px;
+}
+
+.tooltip {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background: var(--bg-elevated-2, #12121e);
+  border: 1px solid var(--border-glass-hi);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  white-space: nowrap;
+  color: var(--text-primary);
+}

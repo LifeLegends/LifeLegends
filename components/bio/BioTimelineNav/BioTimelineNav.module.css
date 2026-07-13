@@ -1,0 +1,32 @@
+.nav {
+  position: sticky;
+  top: 110px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.link {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding-left: 14px;
+  border-left: 1px solid var(--border-glass);
+  transition: all 0.3s;
+}
+
+.active {
+  color: var(--accent-gold);
+  border-color: var(--accent-gold);
+}
+
+.link:hover {
+  color: var(--text-primary);
+}
+
+@media (max-width: 1100px) {
+  .nav {
+    display: none;
+  }
+}

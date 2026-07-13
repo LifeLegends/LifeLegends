@@ -1,0 +1,17 @@
+.wrap { padding: 150px 48px 100px; max-width: 1360px; margin: 0 auto; }
+.introSkeleton { margin-bottom: 56px; display: flex; flex-direction: column; gap: 14px; }
+.line {
+  height: 16px; border-radius: 8px;
+  background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-elevated-2, #12121e) 50%, var(--bg-elevated) 75%);
+  background-size: 200% 100%; animation: shimmer 1.6s infinite;
+}
+.grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 18px; }
+.card {
+  aspect-ratio: 3 / 4; border-radius: 18px;
+  background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-elevated-2, #12121e) 50%, var(--bg-elevated) 75%);
+  background-size: 200% 100%; animation: shimmer 1.6s infinite;
+}
+@keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+@media (max-width: 1100px) { .grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 640px) { .grid { grid-template-columns: repeat(2, 1fr); } .wrap { padding: 120px 24px 60px; } }
+@media (prefers-reduced-motion: reduce) { .line, .card { animation: none; } }

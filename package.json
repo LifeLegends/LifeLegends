@@ -1,0 +1,43 @@
+{
+  "name": "lifelegends",
+  "version": "0.1.0",
+  "private": true,
+  "description": "LifeLegends — a premium digital museum of biographies.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "next": "^15.0.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "gsap": "^3.12.5",
+    "@gsap/react": "^2.1.1",
+    "lenis": "^1.1.13",
+    "framer-motion": "^11.11.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "@supabase/ssr": "^0.5.1",
+    "next-pwa": "^5.6.0",
+    "clsx": "^2.1.1",
+    "marked": "^12.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0",
+    "@types/node": "^22.7.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^15.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3"
+  },
+  "engines": {
+    "node": ">=18.18.0"
+  }
+}

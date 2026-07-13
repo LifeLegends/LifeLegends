@@ -1,0 +1,53 @@
+.wrap { min-height: 100vh; }
+
+.heroSkeleton {
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding: 0 48px;
+  background: linear-gradient(160deg, var(--bg-elevated-2, #12121e), var(--bg-void));
+}
+
+.heroLine {
+  height: 16px;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-elevated-2, #12121e) 50%, var(--bg-elevated) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+
+.container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 80px 48px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.card {
+  aspect-ratio: 3 / 4;
+  border-radius: 20px;
+  background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-elevated-2, #12121e) 50%, var(--bg-elevated) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (max-width: 900px) {
+  .grid { grid-template-columns: repeat(2, 1fr); }
+  .heroSkeleton, .container { padding-left: 24px; padding-right: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroLine, .card { animation: none; }
+}

@@ -1,0 +1,57 @@
+.main {
+  padding: 150px 48px 100px;
+  max-width: 1360px;
+  margin: 0 auto;
+}
+
+.catHero {
+  position: relative;
+  height: 46vh;
+  min-height: 320px;
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  padding: 40px;
+  margin-bottom: 48px;
+}
+
+.catHeroBg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 60% at 30% 30%, var(--accent-violet-glow), transparent 65%),
+    radial-gradient(ellipse 40% 40% at 80% 70%, var(--accent-gold-soft), transparent 60%),
+    linear-gradient(160deg, var(--bg-elevated-2, #12121e), var(--bg-void));
+}
+
+.catHeroContent {
+  position: relative;
+  z-index: 2;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-top: 8px;
+  color: var(--text-primary);
+}
+
+.desc {
+  color: var(--text-secondary);
+  margin-top: 10px;
+  max-width: 520px;
+}
+
+@media (max-width: 900px) {
+  .main {
+    padding: 120px 24px 60px;
+  }
+}
