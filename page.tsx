@@ -1,45 +1,46 @@
-import { notFound } from 'next/navigation';
-import { createClient } from '@/lib/supabase/server';
-import { publicMediaUrl } from '@/lib/supabase/storage';
-import { CategoryEditorForm } from '@/components/admin/CategoryEditorForm';
-import type { UploadedImageData } from '@/components/admin/ImageUploader';
-import type { Database } from '@/lib/supabase/types';
+import { redirect } from 'next/navigation';
+import { updatePasswordAction } from '@/lib/supabase/auth-actions';
+import styles from '../../login/page.module.css';
 
-type CategoryRow = Database['public']['Tables']['categories']['Row'];
+/**
+ * Landed on via the Supabase password-reset email link, which exchanges a
+ * recovery token for a session automatically (handled by @supabase/ssr's
+ * cookie-based flow) before this page renders.
+ */
+export default async function ResetPasswordConfirmPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ error?: string }>;
+}) {
+  const { error } = await searchParams;
 
-export default async function EditCategoryPage({ params }: { params: Promise<{ id: string }> }) {
-  const { id } = await params;
-  const supabase = await createClient();
-  const { data: cat } = await supabase
-    .from('categories')
-    .select('*')
-    .eq('id', id)
-    .maybeSingle()
-    .returns<CategoryRow | null>();
-  if (!cat) notFound();
-
-  const image: UploadedImageData | null = cat.cover_image_path
-    ? {
-        storagePath: cat.cover_image_path,
-        publicUrl: publicMediaUrl(cat.cover_image_path),
-        filename: cat.cover_image_path.split('/').pop() ?? 'category-image',
-        size: 0, altText: cat.name, caption: '', title: '', description: '',
-      }
-    : null;
+  async function handleSubmit(formData: FormData) {
+    'use server';
+    const result = await updatePasswordAction(formData);
+    if (result?.error) redirect(`/admin/reset-password/confirm?error=${encodeURIComponent(result.error)}`);
+  }
 
   return (
-    <div>
-      <div style={{ marginBottom: 28 }}>
-        <h1 style={{ fontFamily: 'var(--font-display)', fontSize: '1.6rem', color: 'var(--text-primary)' }}>Edit — {cat.name}</h1>
+    <div className={styles.screen}>
+      <div className={styles.glow} aria-hidden="true" />
+      <div className={styles.card}>
+        <div className={styles.logo}>LIFELEGENDS</div>
+        <p className={styles.sub}>Set a new password</p>
+
+        <form action={handleSubmit}>
+          <div className={styles.field}>
+            <label htmlFor="password">New Password</label>
+            <input id="password" name="password" type="password" required minLength={8} autoComplete="new-password" />
+          </div>
+          <div className={styles.field}>
+            <label htmlFor="confirmPassword">Confirm Password</label>
+            <input id="confirmPassword" name="confirmPassword" type="password" required minLength={8} autoComplete="new-password" />
+          </div>
+          <button type="submit" className={styles.btn}>Update Password</button>
+        </form>
+
+        {error && <p className={styles.error}>{error}</p>}
       </div>
-      <CategoryEditorForm
-        categoryId={cat.id}
-        initialImage={image}
-        initial={{
-          name: cat.name, slug: cat.slug, description: cat.description ?? '',
-          featured: cat.featured, status: cat.status, seoTitle: cat.seo_title ?? '', seoDescription: cat.seo_description ?? '',
-        }}
-      />
     </div>
   );
 }
