@@ -1,0 +1,84 @@
+.wrap {
+  min-height: 100vh;
+}
+
+.heroSkeleton {
+  height: 100vh;
+  background: linear-gradient(160deg, var(--bg-elevated-2, #12121e), var(--bg-void));
+}
+
+.container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 60px 48px;
+}
+
+.line,
+.timelineNode,
+.galleryTile,
+.relatedCard {
+  background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-elevated-2, #12121e) 50%, var(--bg-elevated) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
+}
+
+.line {
+  height: 14px;
+  border-radius: 6px;
+  margin-bottom: 16px;
+}
+
+.timelineSkeleton {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-left: 36px;
+  margin-bottom: 48px;
+}
+
+.timelineNode {
+  height: 60px;
+  border-radius: 12px;
+  width: 80%;
+}
+
+.gallerySkeleton {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 48px;
+}
+
+.galleryTile {
+  aspect-ratio: 1;
+  border-radius: 14px;
+}
+
+.relatedSkeleton {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.relatedCard {
+  aspect-ratio: 3 / 4;
+  border-radius: 20px;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (max-width: 900px) {
+  .gallerySkeleton,
+  .relatedSkeleton {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .line, .timelineNode, .galleryTile, .relatedCard {
+    animation: none;
+  }
+}
