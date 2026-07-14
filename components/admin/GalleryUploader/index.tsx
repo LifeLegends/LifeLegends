@@ -99,15 +99,26 @@ export function GalleryUploader({ value, onChange, max = 30 }: GalleryUploaderPr
   function handleDragStart(index: number) {
     dragIndex.current = index;
   }
+
   function handleDragOverItem(e: React.DragEvent, index: number) {
     e.preventDefault();
-    if (dragIndex.current === null || dragIndex.current === index) return;
+
+    if (dragIndex.current === null || dragIndex.current === index) {
+      return;
+    }
+
     const next = [...value];
-    const [moved] = next.splice(dragIndex.current, 1);
+    const moved = next.splice(dragIndex.current, 1)[0];
+
+    if (!moved) {
+      return;
+    }
+
     next.splice(index, 0, moved);
     dragIndex.current = index;
     onChange(next);
   }
+
   function handleDragEnd() {
     dragIndex.current = null;
   }
@@ -179,8 +190,11 @@ export function GalleryUploader({ value, onChange, max = 30 }: GalleryUploaderPr
                 placeholder="Alt text..."
                 value={img.altText}
                 onChange={(e) => {
+                  const current = value[i];
+                  if (!current) return;
+
                   const next = [...value];
-                  next[i] = { ...next[i], altText: e.target.value };
+                  next[i] = { ...current, altText: e.target.value };
                   onChange(next);
                 }}
               />

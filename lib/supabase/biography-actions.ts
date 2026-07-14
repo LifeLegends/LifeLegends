@@ -128,7 +128,7 @@ async function upsertChildRows(
 }
 
 export async function createBiographyAction(data: BiographyFormShape, status: 'draft' | 'published'): Promise<ActionResult> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Not authenticated.' };
 
@@ -172,7 +172,7 @@ export async function createBiographyAction(data: BiographyFormShape, status: 'd
 }
 
 export async function updateBiographyAction(id: string, data: BiographyFormShape, status: 'draft' | 'published'): Promise<ActionResult> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Not authenticated.' };
 
@@ -215,7 +215,7 @@ export async function updateBiographyAction(id: string, data: BiographyFormShape
 }
 
 export async function deleteBiographyAction(id: string, slug: string): Promise<ActionResult> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { error } = await supabase.from('biographies').delete().eq('id', id);
   if (error) return { error: error.message };
 
@@ -226,7 +226,7 @@ export async function deleteBiographyAction(id: string, slug: string): Promise<A
 }
 
 export async function duplicateBiographyAction(id: string): Promise<ActionResult> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: original } = await supabase
     .from('biographies')
     .select('*')
@@ -256,7 +256,7 @@ export async function duplicateBiographyAction(id: string): Promise<ActionResult
 }
 
 export async function setPublishStatusAction(id: string, slug: string, status: 'draft' | 'published'): Promise<ActionResult> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   if (status === 'published') {
     const { data: bio } = await supabase

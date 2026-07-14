@@ -9,7 +9,7 @@ type CategoryRow = Database['public']['Tables']['categories']['Row'];
 
 export default async function EditCategoryPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: cat } = await supabase
     .from('categories')
     .select('*')

@@ -10,7 +10,7 @@ import { createClient } from '@/lib/supabase/server';
 const BUCKET = 'media';
 
 export async function uploadImage(file: File, folder: 'portraits' | 'gallery' | 'categories'): Promise<{ path: string; publicUrl: string } | { error: string }> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const ext = file.name.split('.').pop();
   const path = `${folder}/${crypto.randomUUID()}.${ext}`;
 
@@ -26,7 +26,7 @@ export async function uploadImage(file: File, folder: 'portraits' | 'gallery' | 
 }
 
 export async function replaceImage(oldPath: string, file: File, folder: 'portraits' | 'gallery' | 'categories') {
-  const supabase = createClient();
+  const supabase = await createClient();
   const uploadResult = await uploadImage(file, folder);
   if ('error' in uploadResult) return uploadResult;
 
@@ -37,14 +37,14 @@ export async function replaceImage(oldPath: string, file: File, folder: 'portrai
 }
 
 export async function deleteImage(path: string): Promise<{ error?: string }> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { error } = await supabase.storage.from(BUCKET).remove([path]);
   if (error) return { error: error.message };
   return {};
 }
 
-export function getPublicUrl(path: string): string {
-  const supabase = createClient();
+export async function getPublicUrl(path: string): Promise<string> {
+  const supabase = await createClient();
   return supabase.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
 }
 

@@ -6,6 +6,7 @@ import { buildWebsiteSchema, buildOrganizationSchema } from '@/lib/seo/jsonld';
 import { MotionProvider } from '@/lib/providers/MotionProvider';
 import { SearchProvider } from '@/lib/providers/SearchProvider';
 import { SearchOverlay } from '@/components/search/SearchOverlay';
+import { RegisterServiceWorker } from '@/lib/pwa/RegisterServiceWorker';
 import '@/styles/globals.css';
 
 /**
@@ -58,6 +59,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 intentionally does not add a second one. */}
             {children}
             <SearchOverlay />
+            <RegisterServiceWorker />
           </SearchProvider>
         </MotionProvider>
       </body>

@@ -22,7 +22,7 @@ interface AdminBiographyRow {
 }
 
 export default async function AdminBiographiesPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: biographies, error } = await supabase
     .from('biographies')
     .select('id, slug, name, status, view_count, updated_at')

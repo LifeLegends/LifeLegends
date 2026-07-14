@@ -21,7 +21,7 @@ export async function signInAction(formData: FormData): Promise<AuthActionResult
 
   if (!email || !password) return { error: 'Email and password are required.' };
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) return { error: error.message };
@@ -30,7 +30,7 @@ export async function signInAction(formData: FormData): Promise<AuthActionResult
 }
 
 export async function signOutAction(): Promise<void> {
-  const supabase = createClient();
+  const supabase = await createClient();
   await supabase.auth.signOut();
   revalidatePath('/admin', 'layout');
   redirect('/admin/login');
@@ -40,7 +40,7 @@ export async function requestPasswordResetAction(formData: FormData): Promise<Au
   const email = String(formData.get('email') ?? '');
   if (!email) return { error: 'Email is required.' };
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000';
   const { error } = await supabase.auth.resetPasswordForEmail(email, {
     redirectTo: `${siteUrl}/admin/reset-password/confirm`,
@@ -57,7 +57,7 @@ export async function updatePasswordAction(formData: FormData): Promise<AuthActi
   if (password.length < 8) return { error: 'Password must be at least 8 characters.' };
   if (password !== confirmPassword) return { error: 'Passwords do not match.' };
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const { error } = await supabase.auth.updateUser({ password });
 
   if (error) return { error: error.message };

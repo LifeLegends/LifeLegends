@@ -16,7 +16,7 @@ function isMediaFolder(value: string): value is MediaFolder {
  * scroll, which would need a virtualized list — noted as a follow-up).
  */
 export async function GET(request: NextRequest) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Not authenticated.' }, { status: 401 });
 

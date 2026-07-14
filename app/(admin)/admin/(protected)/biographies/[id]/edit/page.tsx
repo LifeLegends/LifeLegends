@@ -80,7 +80,7 @@ interface EditBiographyRow {
 
 export default async function EditBiographyPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: bio } = await supabase
     .from('biographies')

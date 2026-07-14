@@ -13,7 +13,7 @@ const MAX_SIZE_BYTES = 20 * 1024 * 1024; // 20 MB
  * enforced both here and by Storage RLS policies (0003_storage_policies.sql).
  */
 export async function POST(request: NextRequest) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Not authenticated.' }, { status: 401 });
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Not authenticated.' }, { status: 401 });
 

@@ -215,7 +215,7 @@ function mapRowToBiography(row: RawBiographyRow): Biography {
 
 export async function getFeaturedLegends(limit = 4): Promise<Biography[]> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('biographies')
       .select(BIOGRAPHY_SELECT)
@@ -237,7 +237,7 @@ export async function getFeaturedLegends(limit = 4): Promise<Biography[]> {
 
 export async function getTrendingLegends(limit = 5): Promise<Biography[]> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('biographies')
       .select(BIOGRAPHY_SELECT)
@@ -259,7 +259,7 @@ export async function getTrendingLegends(limit = 5): Promise<Biography[]> {
 
 export async function getAllCategories(): Promise<Category[]> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('categories')
       .select('slug, name, description, biography_categories(count)')
@@ -287,7 +287,7 @@ export async function getAllCategories(): Promise<Category[]> {
 
 export async function getLegendBySlug(slug: string): Promise<Biography | null> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('biographies')
       .select(BIOGRAPHY_SELECT)
@@ -309,7 +309,7 @@ export async function getLegendBySlug(slug: string): Promise<Biography | null> {
 
 export async function getLegendsByCategory(categorySlug: string): Promise<Biography[]> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const { data: category } = await supabase
       .from('categories')
@@ -353,7 +353,7 @@ export async function getRelatedLegends(currentSlug: string, categorySlug: strin
 
     if (filtered.length >= limit) return filtered.slice(0, limit);
 
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data } = await supabase
       .from('biographies')
       .select(BIOGRAPHY_SELECT)
@@ -372,7 +372,7 @@ export async function getRelatedLegends(currentSlug: string, categorySlug: strin
 
 export async function getAdjacentLegends(currentSlug: string): Promise<{ prev: Biography; next: Biography } | null> {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const { data, error } = await supabase
       .from('biographies')
       .select('slug')
@@ -403,7 +403,7 @@ export async function searchLegends(query: string, page = 1, pageSize = 10): Pro
   if (!q) return { results: [], total: 0 };
 
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
     const from = (page - 1) * pageSize;
     const to = from + pageSize - 1;
 

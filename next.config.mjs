@@ -1,21 +1,15 @@
-import withPWAInit from 'next-pwa';
-
 /**
- * PWA is enabled in production only — disabled in dev so hot reload
- * isn't fighting the service worker cache.
+ * PWA support is implemented manually (public/sw.js + lib/pwa/registerServiceWorker.ts)
+ * instead of via the `next-pwa` package. `next-pwa` (last published years ago)
+ * has known incompatibilities with Next.js 15's webpack/Turbopack pipeline
+ * and is a common source of production build failures. A hand-rolled
+ * service worker is a few lines of code and has zero build-time risk.
  */
-const withPWA = withPWAInit({
-  dest: 'public',
-  disable: process.env.NODE_ENV === 'development',
-  register: true,
-  skipWaiting: true,
-});
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   images: {
-    // Remote patterns will be filled in once Supabase Storage project URL exists.
     formats: ['image/avif', 'image/webp'],
     remotePatterns: [
       {
@@ -47,4 +41,4 @@ const nextConfig = {
   },
 };
 
-export default withPWA(nextConfig);
+export default nextConfig;

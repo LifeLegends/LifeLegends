@@ -5,7 +5,7 @@ import styles from './page.module.css';
 type RecentBiographyRow = Pick<Database['public']['Tables']['biographies']['Row'], 'name' | 'status' | 'updated_at'>;
 
 export default async function AdminDashboardPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const [
     { count: total },

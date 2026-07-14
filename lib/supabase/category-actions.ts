@@ -22,7 +22,7 @@ interface CategoryFormShape {
 }
 
 export async function createCategoryAction(data: CategoryFormShape): Promise<CategoryActionResult> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) return { error: 'Not authenticated.' };
 
@@ -46,7 +46,7 @@ export async function createCategoryAction(data: CategoryFormShape): Promise<Cat
 }
 
 export async function updateCategoryAction(id: string, data: CategoryFormShape): Promise<CategoryActionResult> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { error } = await supabase
     .from('categories')
     .update({
@@ -71,7 +71,7 @@ export async function updateCategoryAction(id: string, data: CategoryFormShape):
 
 /** Checks whether biographies reference this category before allowing deletion. */
 export async function checkCategoryDeletable(id: string): Promise<CategoryActionResult> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { count } = await supabase
     .from('biography_categories')
     .select('*', { count: 'exact', head: true })
@@ -82,7 +82,7 @@ export async function checkCategoryDeletable(id: string): Promise<CategoryAction
 
 /** Reassigns every biography in `fromCategoryId` to `toCategoryId`, then deletes the empty category. */
 export async function reassignAndDeleteCategoryAction(fromCategoryId: string, toCategoryId: string): Promise<CategoryActionResult> {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { error: reassignError } = await supabase
     .from('biography_categories')
@@ -101,7 +101,7 @@ export async function reassignAndDeleteCategoryAction(fromCategoryId: string, to
 
 /** Deletes a category outright — only safe to call after checkCategoryDeletable confirms 0 biographies. */
 export async function deleteCategoryAction(id: string): Promise<CategoryActionResult> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { error } = await supabase.from('categories').delete().eq('id', id);
   if (error) return { error: error.message };
 
@@ -111,7 +111,7 @@ export async function deleteCategoryAction(id: string): Promise<CategoryActionRe
 }
 
 export async function setCategoryStatusAction(id: string, status: 'active' | 'disabled'): Promise<CategoryActionResult> {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { error } = await supabase.from('categories').update({ status }).eq('id', id);
   if (error) return { error: error.message };
 

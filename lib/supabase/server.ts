@@ -24,8 +24,8 @@ function fetchWithTimeout(input: RequestInfo | URL, init?: RequestInit): Promise
   return fetch(input, { ...init, signal: controller.signal }).finally(() => clearTimeout(timeoutId));
 }
 
-export function createClient() {
-  const cookieStore = cookies();
+export async function createClient() {
+  const cookieStore = await cookies();
 
   return createServerClient<Database>(
     process.env.NEXT_PUBLIC_SUPABASE_URL ?? '',
